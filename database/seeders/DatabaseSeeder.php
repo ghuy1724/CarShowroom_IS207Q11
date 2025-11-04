@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -15,13 +13,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // ✅ Tạo tài khoản Admin (nếu chưa có), hoặc cập nhật nếu đã tồn tại
+        DB::table('users')->updateOrInsert(
+            ['email' => 'locminh.2809@gmail.com'], // Điều kiện kiểm tra trùng
+            [
+                'name' => 'Admin',
+                'password' => Hash::make('password'), // Mật khẩu: password
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
 
-
-        DB::table('users')->insert([
-            'name' => 'Admin',
-            'email' => 'locminh.2809@gmail.com', // Make sure this is the correct email
-            'password' => Hash::make('password')
+        // Nếu sau này bạn có thêm Seeder riêng cho dữ liệu khác, gọi thêm tại đây
+        $this->call([
+            CarDetailsSeeder::class,
+            AccessoriesSeeder::class,
+            RentalCar::class,
+            SalesCarsSeeder::class,
         ]);
-        
     }
 }

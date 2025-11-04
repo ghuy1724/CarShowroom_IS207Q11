@@ -111,14 +111,9 @@ class CustomerAuthController extends Controller
                 'phone' => $request->phone,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'is_verified' => 0,
+                'is_verified' => 1,
                 'email_verification_token' => Str::random(32),
             ]);
-
-            // Gửi email xác minh
-            Mail::send('emails.verify_email', ['token' => $account->email_verification_token], function ($message) use ($request) {
-                $message->to($request->email)->subject('Xác thực tài khoản của bạn');
-            });
 
             toastr()->success('Đăng ký thành công. Vui lòng kiểm tra email để xác nhận tài khoản!');
             return redirect()->route('CustomerDashBoard.index');
@@ -128,6 +123,7 @@ class CustomerAuthController extends Controller
             return back()->withInput();
         }
     }
+
 
     
     
