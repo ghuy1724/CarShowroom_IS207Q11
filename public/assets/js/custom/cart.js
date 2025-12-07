@@ -199,6 +199,24 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
             }
         });
+        const checkoutButton = document.getElementById('checkout-button');
+        if (checkoutButton) {
+            checkoutButton.addEventListener('click', function () {
+                const selectedItems = [];
+                const checkboxes = document.querySelectorAll('.product-checkbox:checked');
+                checkboxes.forEach(checkbox => {
+                    selectedItems.push(checkbox.getAttribute('data-id'));
+                });
+
+                if (selectedItems.length === 0) {
+                    alert('Please select at least one item to checkout.');
+                    return;
+                }
+
+                const checkoutUrl = `/accessories/checkout?items[]=${selectedItems.join('&items[]=')}`;
+                window.location.href = checkoutUrl;
+            });
+        }
     }
 
     attachEventListeners();

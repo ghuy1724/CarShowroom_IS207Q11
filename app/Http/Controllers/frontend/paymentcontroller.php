@@ -59,8 +59,8 @@ class paymentcontroller extends Controller
         $payment->save();
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = "http://127.0.0.1:8000/payment/vnpay-return";
-        $vnp_TmnCode = "G3B8D56Z";//Mã website tại VNPAY 
-        $vnp_HashSecret = "VDUWTWV5XTR62YVIPCWY4J5L684BOIM7"; //Chuỗi bí mật
+        $vnp_TmnCode = env('VNPAY_TMN_CODE');//Mã website tại VNPAY 
+        $vnp_HashSecret = env('VNPAY_HASH_SECRET'); //Chuỗi bí mật
 
 
         //Add Params of 2.0.1 Version
@@ -124,7 +124,7 @@ class paymentcontroller extends Controller
     }
     public function vnpay_return(Request $request)
     {
-        $vnp_HashSecret = "VDUWTWV5XTR62YVIPCWY4J5L684BOIM7"; // Chuỗi bí mật của bạn
+        $vnp_HashSecret = env('VNPAY_HASH_SECRET'); // Chuỗi bí mật của bạn
         $inputData = $request->all();
 
         // Lấy SecureHash từ VNPAY để kiểm tra tính hợp lệ

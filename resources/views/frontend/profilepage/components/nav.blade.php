@@ -23,7 +23,13 @@
         <li>
             <a href="{{route('customer.car')}}" class="flex items-center text-gray-600 hover:text-blue-600"
                 data-section="xe-cua-toi">
-                <i class="fas fa-car mr-3"></i> Xe và phụ kiện của tôi
+                <i class="fas fa-car mr-3"></i> Xe của tôi
+            </a>
+        </li>
+        <li>
+            <a href="{{route('customer.accessories')}}" class="flex items-center text-gray-600 hover:text-blue-600"
+                data-section="phu-kien-cua-toi">
+                <i class="fas fa-cogs mr-3"></i> Phụ kiện của tôi
             </a>
         </li>
     </ul>

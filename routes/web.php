@@ -29,6 +29,7 @@ use App\Http\Controllers\frontend\RentalHistoryController;
 use App\Http\Controllers\Backend\RentalReceiptController;
 use App\Http\Controllers\Backend\RentalRenewalController;
 use App\Http\Controllers\Backend\RevenueController;
+use App\Http\Controllers\frontend\AccessoryOrderController;
 
 
 use App\Http\Controllers\Backend\TestDriveController;
@@ -213,6 +214,8 @@ Route::get('/view-profile/resetpass', [ProfileController::class, 'showResetPass'
 Route::post('/view-profile/resetpass', [CustomerAuthController::class, 'resetPassword'])->name('reset.password.submit');
 Route::get('/customer-car', [ProfileController::class, 'customer_car'])->name('customer.car');
 Route::get('/customer-car/detail/{id}', [ProfileController::class, 'customer_car_detail'])->name('customer.car.detail');
+Route::get('/customer-accessories', [ProfileController::class, 'customer_accessories'])->name('customer.accessories');
+
 
 //transactionHistory
 Route::get('/saleCar-history', [TransactionController::class, 'index'])->name('transaction.history');
@@ -278,6 +281,10 @@ Route::get('/cart/total-price', [CartController::class, 'getTotalPrice'])->name(
 Route::delete('/cart/remove/{id}', [CartController::class, 'removeItem'])->name('cart.remove');
 Route::get('/cart/items', [CartController::class, 'getCartItems'])->name('cart.items');
 
+// Accessory checkout
+Route::get('/accessories/checkout', [AccessoryOrderController::class, 'showCheckoutForm'])->name('accessories.checkout');
+Route::post('/accessories/checkout', [AccessoryOrderController::class, 'processCheckout'])->name('accessories.checkout.process');
+Route::get('/accessories/payment/vnpay-return', [AccessoryOrderController::class, 'vnpay_return'])->name('accessories.payment.vnpay_return');
 
 
 //Car rent

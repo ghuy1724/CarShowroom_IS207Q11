@@ -77,52 +77,62 @@ class ProfileController extends Controller
             ->orderBy('payment_deposit_date', 'desc') // Sắp xếp theo ngày thanh toán
             ->get();
 
-        // Lấy danh sách phụ kiện của khách hàng và gộp số lượng phụ kiện trùng nhau
-        $customerAccessories = OrderAccessory::with(['accessory', 'order'])
-            ->whereHas('order', function ($query) use ($currentUserId) {
-                $query->where('account_id', $currentUserId); // Lọc các order của khách hàng đang đăng nhập
-            })
-            ->get()
-            ->groupBy('accessory_id') // Gộp theo accessory_id
-            ->map(function ($group) {
-                // Tính tổng số lượng cho mỗi nhóm phụ kiện
-                $quantity = $group->sum('quantity');
-                $price = $group->first()->price; // Giá lấy từ phần tử đầu tiên (giả sử giống nhau cho cùng accessory_id)
-                $accessory = $group->first()->accessory; // Lấy thông tin phụ kiện từ phần tử đầu tiên
-    
-                return (object) [
-                    'accessory' => $accessory,
-                    'quantity' => $quantity,
-                    'price' => $price,
-                ];
-            });
-
-        // Kiểm tra nếu cả xe và phụ kiện đều trống
-        if ($customerCars->isEmpty() && $customerAccessories->isEmpty()) {
+        // Kiểm tra nếu xe trống
+        if ($customerCars->isEmpty()) {
             return view('frontend.profilepage.customerCar', [
                 'customerCars' => null,
-                'customerAccessories' => null,
-                'message' => 'Không tìm thấy xe hoặc phụ kiện nào thuộc về bạn. Vui lòng kiểm tra lại đơn hàng.',
+                'message' => 'Không tìm thấy xe nào thuộc về bạn. Vui lòng kiểm tra lại đơn hàng.',
             ]);
         }
 
         // Trả về giao diện với dữ liệu
-        return view('frontend.profilepage.customerCar', compact('customerCars', 'customerAccessories'));
+        return view('frontend.profilepage.customerCar', compact('customerCars'));
+    }
+
+    public function customer_accessories()
+    {
+        $user = Auth::guard('account')->user();
+        $currentUserId = $user->id;
+
+        $customerAccessories = OrderAccessory::with(['accessory', 'order'])
+            ->whereHas('order', function ($query) use ($currentUserId) {
+                $query->where('account_id', $currentUserId)
+                      ->where('status_order', 1); // Only completed orders
+            })
+            ->get()
+            ->groupBy('accessory_id')
+            ->map(function ($group) {
+                $quantity = $group->sum('quantity');
+                $accessory = $group->first()->accessory;
+                return (object) [
+                    'accessory' => $accessory,
+                    'quantity' => $quantity,
+                ];
+            });
+
+        if ($customerAccessories->isEmpty()) {
+            return view('frontend.profilepage.customer_accessories', [
+                'customerAccessories' => null,
+                'message' => 'You have not purchased any accessories yet.',
+            ]);
+        }
+
+        return view('frontend.profilepage.customer_accessories', compact('customerAccessories'));
     }
 
     public function customer_car_detail($id)
     {
-        // Tìm đơn hàng theo ID
+        // Find the order by ID
         $order = Order::with(['salesCar.carDetails'])
             ->where('order_id', $id)
             ->first();
 
-        // Kiểm tra nếu đơn hàng không tồn tại
+        // Check if the order exists
         if (!$order) {
-            return redirect()->back()->with('error', 'Không tìm thấy thông tin đơn hàng.');
+            return redirect()->back()->with('error', 'Order information not found.');
         }
 
-        // Trả về view hiển thị chi tiết đơn hàng
+        // Return the view to display order details
         return view('frontend.profilepage.customerCarDetails', compact('order'));
     }
 }
