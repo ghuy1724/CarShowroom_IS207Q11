@@ -55,8 +55,9 @@
                 </tbody>
             </table>
 
-            <div class="mt-6">
+            <div class="mt-6 flex justify-between items-center">
                 <h3 class="text-xl font-semibold">Total: <span id="total-price">{{ number_format($totalPrice, 0, ',', '.') }} VND</span></h3>
+                <button type="button" id="checkout-button" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700">Checkout</button>
             </div>
         </form>
 
