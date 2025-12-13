@@ -22,8 +22,8 @@ class BuyCarController extends Controller
             return redirect()->back(); // Đảm bảo route 'customer.login' được định nghĩa
         }
     
-        // Lấy thông tin xe từ CSDL
-        $car = CarDetails::findOrFail($id);
+        // Lấy thông tin xe từ CSDL - eager load sale relationship
+        $car = CarDetails::with('sale')->findOrFail($id);
     
         // Trả về view form mua xe với thông tin xe
         return view('frontend.Cars.buyForm', compact('car'));

@@ -28,10 +28,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carts');
         Schema::table('carts', function (Blueprint $table) {
             $table->dropForeign(['account_id']); // Xóa khóa ngoại tới bảng accounts
             $table->dropForeign(['accessory_id']); // Xóa khóa ngoại tới bảng accessories
         });
+        Schema::dropIfExists('carts');
     }
 };

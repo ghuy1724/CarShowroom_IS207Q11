@@ -7,10 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\CarDetails;
 use App\Models\RentalCars;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use App\Models\RentalReceipt;
 use App\Models\RentalRenewal;
+use App\Models\Account;
 
 class RentCarController extends Controller
 {
@@ -126,6 +128,25 @@ class RentCarController extends Controller
             ]);
 
             DB::commit();
+
+            // Gửi email xác nhận
+            try {
+                $user = Account::find(auth('account')->id());
+                if ($user && $user->email) {
+                    Mail::send('emails.deposit_successful', [
+                        'name' => $user->name,
+                        'order_id' => $orderId,
+                        'start_date' => $request->start_date,
+                        'end_date' => Carbon::parse($request->start_date)->addDays($request->rental_days - 1)->format('Y-m-d'),
+                        'deposit_amount' => $request->deposit_amount,
+                        'total_cost' => $request->total_cost,
+                    ], function ($message) use ($user) {
+                        $message->to($user->email)->subject('Xác nhận đơn thuê xe');
+                    });
+                }
+            } catch (\Exception $e) {
+                Log::error('Failed to send rental confirmation email: ' . $e->getMessage());
+            }
 
             // Chuyển hướng sang trang thanh toán VNPAY
             return redirect()->route('rental.payment.vnpay', [
