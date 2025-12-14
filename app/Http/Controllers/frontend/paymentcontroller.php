@@ -28,9 +28,14 @@ class paymentcontroller extends Controller
         $vnp_TxnRef = uniqid(); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này 
         $vnp_OrderInfo = 'Thanh toán hóa đơn cọc xe';
         $vnp_OrderType = 'billpayment';
-        $vnp_Amount = (float) $paymentDepositAmount * 10000;
+        // Clean and convert deposit amount
+        $cleanDepositAmount = str_replace([',', '.'], '', $paymentDepositAmount);
+        $depositInUSD = (float) $cleanDepositAmount;
+        
+        // Convert USD to VND and format for VNPay (VNPay requires amount in cents)
+        $vnp_Amount = $depositInUSD * 25000 * 100; // USD -> VND -> VNPay format
         $vnp_Locale = 'VN';
-        $vnp_BankCode = '';
+        $vnp_BankCode = ''; // Để trống để VNPay hiển thị tất cả phương thức
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
         // Tạo bản ghi trong bảng payments
         // Tạo bản ghi trong bảng orders
@@ -58,7 +63,7 @@ class paymentcontroller extends Controller
         $payment->payment_deadline = now()->addMinutes(5); // Ví dụ: hạn thanh toán đầy đủ là 30 ngày
         $payment->save();
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://127.0.0.1:8000/payment/vnpay-return";
+        $vnp_Returnurl = route('payment.vnpay_return');
         $vnp_TmnCode = env('VNPAY_TMN_CODE');//Mã website tại VNPAY 
         $vnp_HashSecret = env('VNPAY_HASH_SECRET'); //Chuỗi bí mật
 
@@ -109,17 +114,7 @@ class paymentcontroller extends Controller
             $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
-        $returnData = array(
-            'code' => '00',
-            'message' => 'success',
-            'data' => $vnp_Url
-        );
-        if (isset($_POST['redirect'])) {
-            header('Location: ' . $vnp_Url);
-            die();
-        } else {
-            echo json_encode($returnData);
-        }
+        return redirect($vnp_Url);
         // vui lòng tham khảo thêm tại code demo
     }
     public function vnpay_return(Request $request)

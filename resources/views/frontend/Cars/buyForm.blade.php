@@ -74,13 +74,13 @@
                     <div class="p-4 bg-blue-100 rounded-md shadow-md">
                         <h3 class="text-lg font-semibold text-gray-900">Tổng chi phí</h3>
                         <p class="text-gray-700 mt-2">Giá xe: <span
-                                id="car_price">{{ number_format($car->sale->sale_price ?? $car->price, 0) }}</span> VNĐ
+                                id="car_price">{{ number_format($car->sale->sale_price ?? $car->price, 0) }}</span> USD
                         </p>
-                        <p class="text-gray-700 mt-2">Tiền cọc (15%): <span id="deposit_amount"></span> VNĐ</p>
-                        <p class="text-gray-700 mt-2">Còn lại: <span id="remaining_amount"></span> VNĐ</p>
+                        <p class="text-gray-700 mt-2">Tiền cọc (15%): <span id="deposit_amount"></span> USD</p>
+                        <p class="text-gray-700 mt-2">Còn lại: <span id="remaining_amount"></span> USD</p>
                         <p class="text-lg font-bold text-blue-600 mt-4">Tổng cộng: <span
                                 id="total_price">{{ number_format($car->sale->sale_price ?? $car->price, 0) }}</span>
-                            VNĐ</p>
+                            USD</p>
                     </div>
                 </div>
 
@@ -122,13 +122,13 @@
                         <h3 class="text-lg font-semibold text-blue-600">Giá xe</h3>
                         <p class="text-gray-700">Giá xe: <span
                                 id="payment-car-price">{{ number_format($car->sale->sale_price ?? $car->price, 0) }}</span>
-                            VNĐ</p>
+                            USD</p>
                         <p class="text-gray-700">Tiền cọc (15%): <span id="payment-deposit-amount"
-                                name="payment-deposit-amount"></span> VNĐ</p>
-                        <p class="text-gray-700">Còn lại: <span id="payment-remaining-amount"></span> VNĐ</p>
+                                name="payment-deposit-amount"></span> USD</p>
+                        <p class="text-gray-700">Còn lại: <span id="payment-remaining-amount"></span> USD</p>
                         <p class="text-lg font-bold text-blue-600 mt-4">Tổng cộng: <span
                                 id="payment-total-price">{{ number_format($car->sale->sale_price ?? $car->price, 0) }}</span>
-                            VNĐ</p>
+                            USD</p>
 
                     </div>
 

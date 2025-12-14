@@ -53,9 +53,9 @@ class RentalPaymentController extends Controller
         // Cấu hình VNPAY
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = route('rental.payment.vnpay_return'); // Đường dẫn trả về sau khi thanh toán
-        $vnp_TmnCode = "YNHSYV2M"; // Mã website tại VNPAY
-        $vnp_HashSecret = "ATCT9RJYIMSNQ47T8J3AAM87W3NPPQS8"; // Chuỗi bí mật
-        $vnp_BankCode = '';
+        $vnp_TmnCode = env('VNPAY_TMN_CODE'); // Mã website tại VNPAY
+        $vnp_HashSecret = env('VNPAY_HASH_SECRET'); // Chuỗi bí mật
+        $vnp_BankCode = 'VNPAYQR'; // Sử dụng QR Code
 
         $vnp_Amount = (float)$paymentDepositAmount * 100;; // Đơn vị VND * 100
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
@@ -111,7 +111,7 @@ class RentalPaymentController extends Controller
      */
     public function vnpay_return(Request $request)
     {
-        $vnp_HashSecret = "ATCT9RJYIMSNQ47T8J3AAM87W3NPPQS8"; // Chuỗi bí mật
+        $vnp_HashSecret = env('VNPAY_HASH_SECRET'); // Chuỗi bí mật
         $inputData = $request->all();
 
         // Lấy hash từ dữ liệu trả về
@@ -213,9 +213,9 @@ class RentalPaymentController extends Controller
         // Cấu hình VNPAY
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = route('rental.payment.vnpay_return_renewal'); // Đường dẫn trả về sau khi thanh toán
-        $vnp_TmnCode = "YNHSYV2M"; // Mã website tại VNPAY
-        $vnp_HashSecret = "ATCT9RJYIMSNQ47T8J3AAM87W3NPPQS8"; // Chuỗi bí mật
-        $vnp_BankCode = '';
+        $vnp_TmnCode = env('VNPAY_TMN_CODE'); // Mã website tại VNPAY
+        $vnp_HashSecret = env('VNPAY_HASH_SECRET'); // Chuỗi bí mật
+        $vnp_BankCode = 'VNPAYQR'; // Sử dụng QR Code
 
         $vnp_Amount = $amount * 100; // Đơn vị VND * 100
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
@@ -267,7 +267,7 @@ class RentalPaymentController extends Controller
 
     public function vnpay_return_renewal(Request $request)
     {
-        $vnp_HashSecret = "ATCT9RJYIMSNQ47T8J3AAM87W3NPPQS8"; // Chuỗi bí mật
+        $vnp_HashSecret = env('VNPAY_HASH_SECRET'); // Chuỗi bí mật
         $inputData = $request->all();
         $renewalId = session('renewal_id');
         $renewalType = session('renewal_type');

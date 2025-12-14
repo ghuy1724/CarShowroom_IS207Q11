@@ -126,7 +126,7 @@ class AccessoryOrderController extends Controller
             $inputData = [
                 "vnp_Version" => "2.1.0",
                 "vnp_TmnCode" => $vnp_TmnCode,
-                "vnp_Amount" => (float)$totalPrice * 100, // Amount in VND cents
+                "vnp_Amount" => (int)($totalPrice * 100), // Amount in VND cents
                 "vnp_Command" => "pay",
                 "vnp_CreateDate" => date('YmdHis'),
                 "vnp_CurrCode" => "VND",

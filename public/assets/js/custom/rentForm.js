@@ -59,7 +59,7 @@ document.getElementById('agree-terms').addEventListener('change', function () {
 function confirmPayment() {
     const checkbox = document.getElementById('agree-terms');
     if (checkbox.checked) {
-        alert("Bạn đã xác nhận thanh toán thành công!");
+        // Submit form - will redirect to VNPay payment
         document.getElementById('rental-form').submit();
     } else {
         alert("Vui lòng đồng ý với Điều khoản và Dịch vụ trước khi thanh toán.");
