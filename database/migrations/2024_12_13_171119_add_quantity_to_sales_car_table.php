@@ -23,7 +23,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('sales_car', function (Blueprint $table) {
+        Schema::table('sales_cars', function (Blueprint $table) {
             $table->dropColumn('quantity');  // Xóa cột quantity nếu rollback migration
         });
     }

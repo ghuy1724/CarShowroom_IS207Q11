@@ -136,18 +136,16 @@
 
                     <!-- Nút xác nhận thanh toán -->
                     <div class="flex justify-center mt-6">
-                        <form action={{url('/vnpay_payment')}} method="POST">
-                            @if ($car->sale) <!-- Kiểm tra nếu car->sale tồn tại -->
-                                @csrf
-                                <input type="hidden" name="sale_id" value="{{ $car->sale->sale_id }}">
-                                <input type="hidden" name="total-price" value="{{ $car->sale->sale_price }}">
-                                <input type="hidden" name="remaining_amount" id="payment-remaining-amount-input">
-                                <input type="hidden" name="payment_deposit_amount" id="payment-deposit-amount-input">
-                                <button type="submit" name="redirect"
-                                    class="px-10 py-3 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 shadow-md transition-all">
-                                    Xác nhận thanh toán
-                                </button>
-                            @endif
+                        <form id="buy-car-form" action="{{ url('/vnpay_payment') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="sale_id" value="{{ $car->sale->sale_id ?? $car->id }}">
+                            <input type="hidden" name="total-price" id="form-total-price" value="35000">
+                            <input type="hidden" name="payment_deposit_amount" id="form-deposit-amount" value="5250">
+                            <input type="hidden" name="remaining_amount" id="form-remaining-amount" value="29750">
+                            <button type="submit"
+                                class="px-10 py-3 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 shadow-md transition-all">
+                                Xác nhận thanh toán
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -238,17 +236,67 @@
         const depositAmount = Math.round(carPrice * 0.15);
         const remainingAmount = carPrice - depositAmount;
 
-
         // Hiển thị tiền cọc và số còn lại trong tab thanh toán
         document.getElementById('payment-deposit-amount').textContent = depositAmount.toLocaleString();
-        document.getElementById('payment-deposit-amount-input').value = depositAmount.toLocaleString();
         document.getElementById('payment-remaining-amount').textContent = remainingAmount.toLocaleString();
-        document.getElementById('payment-remaining-amount-input').value = remainingAmount.toLocaleString();
 
+        // Set values for form submission
+        document.getElementById('form-total-price').value = carPrice;
+        document.getElementById('form-deposit-amount').value = depositAmount;
+        document.getElementById('form-remaining-amount').value = remainingAmount;
     }
 
+    // Gửi biểu mẫu mua xe
+    function submitBuyCarForm() {
+        try {
+            console.log('submitBuyCarForm called');
+            
+            const carPriceElement = document.getElementById('car_price');
+            if (!carPriceElement) {
+                alert('Không tìm thấy phần tử giá xe');
+                return;
+            }
+            
+            const carPriceText = carPriceElement.textContent.replace(/,/g, '');
+            console.log('Car price text:', carPriceText);
+            
+            const carPrice = parseFloat(carPriceText);
+            console.log('Car price:', carPrice);
 
-    // Xác nhận thanh toán và gửi form
+            if (isNaN(carPrice) || carPrice <= 0) {
+                alert('Giá xe không hợp lệ: ' + carPrice);
+                return;
+            }
+
+            // Tính toán tiền cọc (15%) và số còn lại
+            const depositAmount = Math.round(carPrice * 0.15);
+            const remainingAmount = carPrice - depositAmount;
+
+            console.log('Deposit amount:', depositAmount);
+            console.log('Remaining amount:', remainingAmount);
+
+            // Điền vào form hidden fields
+            document.getElementById('form-total-price').value = carPrice;
+            document.getElementById('form-deposit-amount').value = depositAmount;
+            document.getElementById('form-remaining-amount').value = remainingAmount;
+
+            console.log('Form values set:');
+            console.log('Total:', document.getElementById('form-total-price').value);
+            console.log('Deposit:', document.getElementById('form-deposit-amount').value);
+            console.log('Remaining:', document.getElementById('form-remaining-amount').value);
+
+            // Gửi form
+            const form = document.getElementById('buy-car-form');
+            console.log('Form element:', form);
+            console.log('Form action:', form.action);
+            console.log('Form method:', form.method);
+            
+            form.submit();
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra: ' + error.message);
+        }
+    }
 
     // Sự kiện khi DOM đã tải xong
     document.addEventListener('DOMContentLoaded', function () {
@@ -264,6 +312,7 @@
         // Tính toán và hiển thị thông tin ban đầu
         updateInitialCosts();
     });
+    
     function updateInitialCosts() {
         // Lấy giá xe
         const carPriceText = document.getElementById('car_price').textContent.replace(/,/g, '');

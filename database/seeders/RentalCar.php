@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\RentalCars;
 
 class RentalCar extends Seeder
 {
@@ -12,6 +13,9 @@ class RentalCar extends Seeder
      */
     public function run(): void
     {
+        // Delete existing rental cars to avoid duplicates
+        DB::table('rental_cars')->delete();
+        
         DB::table('rental_cars')->insert([
             [
                 'car_id' => 1, // ID từ bảng car_details
