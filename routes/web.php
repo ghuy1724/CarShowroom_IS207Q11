@@ -301,6 +301,7 @@ Route::get('/rental/payment/renewal-return', [RentalPaymentController::class, 'v
 //Car buy
 Route::get('/car/{id}/buy', [BuyCarController::class, 'showBuyForm'])->name('car.buy');
 Route::post('/vnpay_payment', [paymentcontroller::class, 'vnpay_payment']);
+//payment route
 Route::get('/payment/vnpay-return', [paymentcontroller::class, 'vnpay_return'])->name('payment.vnpay_return');
 
 //Terms

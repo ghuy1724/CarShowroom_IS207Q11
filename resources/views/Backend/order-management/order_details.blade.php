@@ -30,7 +30,7 @@
                         <p class="text-gray-600"><strong>Tên xe:</strong> {{ $order->salesCar->carDetails->name ?? 'Không có thông tin' }}</p>
                         <p class="text-gray-600"><strong>Model:</strong> {{ $order->salesCar->carDetails->model ?? 'Không có thông tin' }}</p>
                         <p class="text-gray-600"><strong>Năm sản xuất:</strong> {{ $order->salesCar->carDetails->year ?? 'Không có thông tin' }}</p>
-                        <p class="text-gray-600"><strong>Giá:</strong> {{ number_format($order->salesCar->sale_price, 0, ',', '.') }} VNĐ</p>
+                        <p class="text-gray-600"><strong>Giá:</strong> ${{ number_format($order->salesCar->sale_price, 2) }}</p>
                     </div>
                 </div>
             @endif
@@ -42,8 +42,8 @@
                         <div class="border border-gray-300 bg-gray-50 p-4 rounded-lg shadow-sm mb-4">
                             <p class="text-gray-600"><strong>Tên phụ kiện:</strong> {{ $accessory->name }}</p>
                             <p class="text-gray-600"><strong>Số lượng:</strong> {{ $accessory->pivot->quantity }}</p>
-                            <p class="text-gray-600"><strong>Giá mỗi sản phẩm:</strong> {{ number_format($accessory->pivot->price, 0, ',', '.') }} VNĐ</p>
-                            <p class="text-gray-600"><strong>Tổng:</strong> {{ number_format($accessory->pivot->quantity * $accessory->pivot->price, 0, ',', '.') }} VNĐ</p>
+                            <p class="text-gray-600"><strong>Giá mỗi sản phẩm:</strong> ${{ number_format($accessory->pivot->price, 2) }}</p>
+                            <p class="text-gray-600"><strong>Tổng:</strong> ${{ number_format($accessory->pivot->quantity * $accessory->pivot->price, 2) }}</p>
                         </div>
                     @endforeach
                 </div>
@@ -61,9 +61,9 @@
                 $payment = $order->payments->first();
             @endphp
             @if ($payment)
-                <p class="text-gray-600"><strong>Tổng tiền:</strong> {{ number_format($payment->total_amount, 0, ',', '.') }} VNĐ</p>
-                <p class="text-gray-600"><strong>Đặt cọc:</strong> {{ number_format($payment->deposit_amount, 0, ',', '.') }} VNĐ</p>
-                <p class="text-gray-600"><strong>Số tiền còn lại:</strong> {{ number_format($payment->remaining_amount, 0, ',', '.') }} VNĐ</p>
+                <p class="text-gray-600"><strong>Tổng tiền:</strong> ${{ number_format($payment->total_amount, 2) }}</p>
+                <p class="text-gray-600"><strong>Đặt cọc:</strong> ${{ number_format($payment->deposit_amount, 2) }}</p>
+                <p class="text-gray-600"><strong>Số tiền còn lại:</strong> ${{ number_format($payment->remaining_amount, 2) }}</p>
                 <p class="text-gray-600"><strong>Trạng thái thanh toán:</strong>
                     <span class="px-3 py-1 rounded-full text-sm font-medium 
                         @if ($payment->status_payment_all == 1) bg-green-200 text-green-800
