@@ -2,189 +2,267 @@
 
 namespace App\Http\Controllers\frontend;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\Payment;
+use App\Models\SalesCars;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Order; // Đảm bảo đã import
-use App\Models\SalesCars; // Đảm bảo đã import
-use App\Models\Payment; // Đảm bảo đã import
-
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class paymentcontroller extends Controller
 {
-
+    /**
+     * Xử lý thanh toán mua xe qua VNPAY (đặt cọc hoặc toàn phần).
+     */
     public function vnpay_payment(Request $request)
     {
-        // Lấy thông tin từ request
-        $paymentDepositAmount = str_replace(',', '', $request->input('payment_deposit_amount'));
-        $saleId = $request->input('sale_id');
-        $totalPrice = $request->input('total-price');
-        $accountId = Auth::guard('account')->id(); // Lấy account_id từ người dùng đang đăng nhập
-        $remainingAmount = str_replace(',', '', $request->input('remaining_amount'));
-
-        // Tạo bản ghi trong bảng payment_details
-
-        $vnp_TxnRef = uniqid(); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này 
-        $vnp_OrderInfo = 'Thanh toán hóa đơn cọc xe';
-        $vnp_OrderType = 'billpayment';
-        $vnp_Amount = (float) $paymentDepositAmount * 10000;
-        $vnp_Locale = 'VN';
-        $vnp_BankCode = '';
-        $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-        // Tạo bản ghi trong bảng payments
-        // Tạo bản ghi trong bảng orders
-        $order = new Order();
-        $order->order_id = 'ORD' . time(); // Hoặc sử dụng logic tạo ID phù hợp
-        $order->account_id = Auth::guard('account')->id();
-        $order->sale_id = $saleId;
-        $order->status_order = 0; // Pending
-        $order->order_date = now();
-        $order->save();
-        $salesCar = SalesCars::find($saleId);
-        $salesCar->quantity -= 1;
-        $salesCar->save();
-        // Tạo bản ghi trong bảng payments
-        $payment = new Payment();
-        $payment->payment_id = 'PAY' . time(); // Hoặc sử dụng logic tạo ID phù hợp
-        $payment->order_id = $order->order_id;
-        $payment->VNPAY_ID = $vnp_TxnRef;
-        $payment->status_deposit = 0; // Pending
-        $payment->status_payment_all = 0; // Pending
-        $payment->deposit_amount = $paymentDepositAmount;
-        $payment->remaining_amount = $remainingAmount;
-        $payment->total_amount = $totalPrice;
-        $payment->deposit_deadline = now()->addMinutes(2); // Hạn đặt cọc là 5 phút
-        $payment->payment_deadline = now()->addMinutes(5); // Ví dụ: hạn thanh toán đầy đủ là 30 ngày
-        $payment->save();
-        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://127.0.0.1:8000/payment/vnpay-return";
-        $vnp_TmnCode = env('VNPAY_TMN_CODE');//Mã website tại VNPAY 
-        $vnp_HashSecret = env('VNPAY_HASH_SECRET'); //Chuỗi bí mật
-
-
-        //Add Params of 2.0.1 Version
-        // $vnp_ExpireDate = $_POST['txtexpire'];
-        //Billing
-
-        $inputData = array(
-            "vnp_Version" => "2.1.0",
-            "vnp_TmnCode" => $vnp_TmnCode,
-            "vnp_Amount" => $vnp_Amount,
-            "vnp_Command" => "pay",
-            "vnp_CreateDate" => date('YmdHis'),
-            "vnp_CurrCode" => "VND",
-            "vnp_IpAddr" => $vnp_IpAddr,
-            "vnp_Locale" => $vnp_Locale,
-            "vnp_OrderInfo" => $vnp_OrderInfo,
-            "vnp_OrderType" => $vnp_OrderType,
-            "vnp_ReturnUrl" => $vnp_Returnurl,
-            "vnp_TxnRef" => $vnp_TxnRef,
-        );
-
-        if (isset($vnp_BankCode) && $vnp_BankCode != "") {
-            $inputData['vnp_BankCode'] = $vnp_BankCode;
-        }
-        if (isset($vnp_Bill_State) && $vnp_Bill_State != "") {
-            $inputData['vnp_Bill_State'] = $vnp_Bill_State;
+        // Custom validation that handles comma-formatted numbers
+        $totalPrice = str_replace(',', '', $request->input('total-price', '0'));
+        $depositAmount = str_replace(',', '', $request->input('payment_deposit_amount', '0'));
+        
+        Log::info('Payment request received', [
+            'totalPrice' => $totalPrice,
+            'depositAmount' => $depositAmount,
+            'saleId' => $request->input('sale_id'),
+            'authenticated' => Auth::guard('account')->check()
+        ]);
+        
+        $request->validate([
+            'sale_id' => 'required|exists:sales_cars,sale_id',
+        ]);
+        
+        // Validate numeric values manually
+        if (!is_numeric($totalPrice) || !is_numeric($depositAmount)) {
+            Log::error('Invalid numeric values', ['totalPrice' => $totalPrice, 'depositAmount' => $depositAmount]);
+            toastr()->error('Số tiền không hợp lệ.');
+            return redirect()->back();
         }
 
-        //var_dump($inputData);
-        ksort($inputData);
-        $query = "";
-        $i = 0;
-        $hashdata = "";
-        foreach ($inputData as $key => $value) {
-            if ($i == 1) {
-                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
-            } else {
-                $hashdata .= urlencode($key) . "=" . urlencode($value);
-                $i = 1;
+        if (!Auth::guard('account')->check()) {
+            Log::warning('User not authenticated for payment');
+            toastr()->error('Vui lòng đăng nhập để thanh toán.');
+            return redirect()->back();
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $accountId = Auth::guard('account')->id();
+            $saleId = $request->input('sale_id');
+            $totalAmount = (float) $totalPrice;
+            $depositAmount = (float) $depositAmount;
+            $remainingAmount = max($totalAmount - $depositAmount, 0);
+
+            Log::info('Processing payment', [
+                'accountId' => $accountId,
+                'saleId' => $saleId,
+                'totalAmount' => $totalAmount,
+                'depositAmount' => $depositAmount
+            ]);
+
+            // Kiểm tra xe còn số lượng
+            $rawResult = DB::table('sales_cars')->where('sale_id', $saleId)->first();
+            Log::info('Raw DB result', ['raw' => $rawResult]);
+            
+            $saleCar = SalesCars::findOrFail($saleId);
+            Log::info('Car found', ['quantity' => $saleCar->quantity, 'is_deleted' => $saleCar->is_deleted, 'model' => $saleCar->toArray()]);
+            
+            if (is_null($saleCar->quantity) || $saleCar->quantity <= 0 || $saleCar->is_deleted) {
+                Log::warning('Car not available', ['quantity' => $saleCar->quantity, 'is_deleted' => $saleCar->is_deleted]);
+                toastr()->error('Xe không còn khả dụng.');
+                return redirect()->back();
             }
-            $query .= urlencode($key) . "=" . urlencode($value) . '&';
-        }
 
-        $vnp_Url = $vnp_Url . "?" . $query;
-        if (isset($vnp_HashSecret)) {
-            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
+            // Tạo đơn hàng
+            $order = Order::create([
+                'account_id' => $accountId,
+                'sale_id' => $saleId,
+                'status_order' => 0,
+                'order_date' => now(),
+            ]);
+
+            Log::info('Order created', ['order_id' => $order->order_id ?? 'unknown']);
+
+            // Gửi email xác nhận đặt cọc ngay khi tạo đơn
+            try {
+                $user = $order->account;
+                if ($user && $user->email) {
+                    Mail::send('emails.purchase_confirmation', [
+                        'name' => $user->name,
+                        'order_id' => $order->order_id,
+                        'deposit_amount' => $depositAmount,
+                        'remaining_amount' => $remainingAmount,
+                        'total_amount' => $totalAmount,
+                    ], function ($message) use ($user) {
+                        $message->to($user->email)->subject('Xác nhận thanh toán đặt cọc mua xe');
+                    });
+                    Log::info('Purchase confirmation email sent to ' . $user->email);
+                }
+            } catch (\Exception $e) {
+                Log::error('Failed to send purchase confirmation email: ' . $e->getMessage());
+            }
+
+            // Tạo mã giao dịch VNPAY
+            $vnp_TxnRef = 'SALE' . time() . rand(1000, 9999);
+
+            Log::info('Creating payment record', [
+                'order_id' => $order->order_id,
+                'vnp_TxnRef' => $vnp_TxnRef,
+                'depositAmount' => $depositAmount
+            ]);
+
+            // Tạo bản ghi thanh toán
+            $payment = Payment::create([
+                'order_id' => $order->order_id,
+                'VNPAY_ID' => $vnp_TxnRef,
+                'payment_deposit_date' => now(),
+                'status_deposit' => 0, // Pending
+                'status_payment_all' => 0, // Pending
+                'deposit_amount' => $depositAmount,
+                'remaining_amount' => $remainingAmount,
+                'total_amount' => $totalAmount,
+                'deposit_deadline' => now()->addDays(3),
+                'payment_deadline' => now()->addDays(30),
+            ]);
+
+            Log::info('Payment record created', ['payment_id' => $payment->id ?? 'unknown']);
+
+            DB::commit();
+
+            // Cấu hình VNPAY
+            $vnp_Url = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
+            $vnp_Returnurl = route('payment.vnpay_return');
+            $vnp_TmnCode = 'YNHSYV2M';
+            $vnp_HashSecret = 'ATCT9RJYIMSNQ47T8J3AAM87W3NPPQS8';
+
+            $vnp_Amount = $depositAmount * 100;
+            $vnp_IpAddr = request()->ip();
+            $vnp_OrderInfo = 'Thanh toan dat coc mua xe ORDER ' . $order->order_id;
+
+            $inputData = [
+                'vnp_Version' => '2.1.0',
+                'vnp_TmnCode' => $vnp_TmnCode,
+                'vnp_Amount' => $vnp_Amount,
+                'vnp_Command' => 'pay',
+                'vnp_CreateDate' => now()->format('YmdHis'),
+                'vnp_CurrCode' => 'VND',
+                'vnp_IpAddr' => $vnp_IpAddr,
+                'vnp_Locale' => 'vn',
+                'vnp_OrderInfo' => $vnp_OrderInfo,
+                'vnp_OrderType' => 'billpayment',
+                'vnp_ReturnUrl' => $vnp_Returnurl,
+                'vnp_TxnRef' => $vnp_TxnRef,
+            ];
+
+            ksort($inputData);
+            $query = '';
+            $i = 0;
+            $hashdata = '';
+            foreach ($inputData as $key => $value) {
+                if ($i == 1) {
+                    $hashdata .= '&' . urlencode($key) . '=' . urlencode($value);
+                } else {
+                    $hashdata .= urlencode($key) . '=' . urlencode($value);
+                    $i = 1;
+                }
+                $query .= urlencode($key) . '=' . urlencode($value) . '&';
+            }
+
+            $vnp_Url = $vnp_Url . '?' . $query;
+            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+
+            Log::info('VNPAY Redirect URL', ['url' => $vnp_Url]);
+            
+            return redirect()->away($vnp_Url);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            Log::error('VNPAY Payment Error (sale): ' . $e->getMessage());
+            Log::error('Exception trace: ' . $e->getTraceAsString());
+            toastr()->error('Có lỗi xảy ra khi xử lý thanh toán. Vui lòng thử lại.');
+            return redirect()->back();
         }
-        $returnData = array(
-            'code' => '00',
-            'message' => 'success',
-            'data' => $vnp_Url
-        );
-        if (isset($_POST['redirect'])) {
-            header('Location: ' . $vnp_Url);
-            die();
-        } else {
-            echo json_encode($returnData);
-        }
-        // vui lòng tham khảo thêm tại code demo
     }
+
+    /**
+     * Kết quả trả về từ VNPAY sau khi thanh toán đặt cọc mua xe.
+     */
     public function vnpay_return(Request $request)
     {
-        $vnp_HashSecret = env('VNPAY_HASH_SECRET'); // Chuỗi bí mật của bạn
+        $vnp_HashSecret = 'ATCT9RJYIMSNQ47T8J3AAM87W3NPPQS8';
         $inputData = $request->all();
 
-        // Lấy SecureHash từ VNPAY để kiểm tra tính hợp lệ
         $vnp_SecureHash = $inputData['vnp_SecureHash'] ?? '';
-        unset($inputData['vnp_SecureHash']);
-        unset($inputData['vnp_SecureHashType']);
+        unset($inputData['vnp_SecureHash'], $inputData['vnp_SecureHashType']);
 
-        // Sắp xếp và tạo chuỗi hash
         ksort($inputData);
-        $hashData = "";
+        $hashData = '';
         foreach ($inputData as $key => $value) {
-            $hashData .= '&' . urlencode($key) . "=" . urlencode($value);
+            $hashData .= '&' . urlencode($key) . '=' . urlencode($value);
         }
         $hashData = trim($hashData, '&');
         $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
 
         if ($secureHash === $vnp_SecureHash) {
-            // Kiểm tra trạng thái giao dịch từ VNPAY
-            if ($inputData['vnp_ResponseCode'] == '00') {
-                // Lấy mã giao dịch từ VNPAY
-                $transactionCode = $inputData['vnp_TxnRef'] ?? null;
+            $responseCode = $inputData['vnp_ResponseCode'] ?? null;
+            $txnRef = $inputData['vnp_TxnRef'] ?? null;
 
-                if ($transactionCode) {
-                    // Tìm payment dựa trên VNPAY_ID
-                    $payment = Payment::where('VNPAY_ID', $transactionCode)->first();
-
-                    if ($payment) {
-                        // Cập nhật trạng thái thanh toán thành công
+            if ($responseCode === '00' && $txnRef) {
+                $payment = Payment::where('VNPAY_ID', $txnRef)->first();
+                
+                if ($payment) {
+                    DB::beginTransaction();
+                    try {
                         $payment->update([
-                            'status_deposit' => 1, // Cập nhật trạng thái cọc thành công
-                            'payment_deposit_date' => now(), // Ghi nhận ngày thanh toán
+                            'status_deposit' => 1,
+                            'payment_deposit_date' => now(),
                         ]);
 
-                        // Cập nhật trạng thái order tương ứng
-                        // Thông báo thành công
-                        toastr()->success("Đặt cọc thành công");
-                        return redirect()->route('CarController.index');
-                    }
-                }
+                        // Đánh dấu đơn hàng đang chờ thanh toán còn lại
+                        $payment->order()->update([
+                            'status_order' => 0,
+                        ]);
 
-                // Nếu không tìm thấy payment
-                toastr()->error("Không tìm thấy giao dịch liên kết!");
-                return redirect()->route('CarController.index');
+                        // Gửi email xác nhận thanh toán
+                        try {
+                            $order = $payment->order;
+                            $user = $order->account;
+                            if ($user && $user->email) {
+                                Mail::send('emails.purchase_confirmation', [
+                                    'name' => $user->name,
+                                    'order_id' => $order->order_id,
+                                    'deposit_amount' => $payment->deposit_amount,
+                                    'remaining_amount' => $payment->remaining_amount,
+                                    'total_amount' => $payment->total_amount,
+                                ], function ($message) use ($user) {
+                                    $message->to($user->email)->subject('Xác nhận thanh toán đặt cọc mua xe');
+                                });
+                                Log::info('Purchase confirmation email sent to ' . $user->email);
+                            }
+                        } catch (\Exception $e) {
+                            Log::error('Failed to send payment confirmation email: ' . $e->getMessage());
+                        }
+
+                        DB::commit();
+                        toastr()->success('Thanh toán đặt cọc thành công.');
+                    } catch (\Exception $e) {
+                        DB::rollBack();
+                        Log::error('Payment update error: ' . $e->getMessage());
+                        toastr()->error('Có lỗi xảy ra. Vui lòng thử lại.');
+                    }
+                } else {
+                    toastr()->error('Không tìm thấy giao dịch.');
+                }
             } else {
-                // Trường hợp giao dịch thất bại
-                toastr()->error("Giao dịch thất bại, vui lòng thử lại!");
-                return redirect()->route('CarController.index');
+                toastr()->error('Thanh toán thất bại. Mã lỗi: ' . $responseCode);
             }
         } else {
-            // Chữ ký không hợp lệ
-            return redirect()->route('CarController.index')->with('error', 'Chữ ký không hợp lệ!');
+            toastr()->error('Chữ ký không hợp lệ.');
         }
+
+        return redirect()->route('CarController.index');
     }
-    public function managePayments()
-{
-    $payments = Payment::with(['order.account'])
-        ->orderBy('payment_date', 'desc')
-        ->get();
-
-    return view('Backend.payments.manage', compact('payments'));
-}
-
 }
