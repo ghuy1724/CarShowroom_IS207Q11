@@ -89,7 +89,7 @@
                         required>
                     <label for="agree-terms" class="text-gray-700">
                         Tôi đồng ý với các <a href="{{ route('CustomerDashBoard.terms') }}" target="_blank"
-                            class="text-blue-500 hover:underline">Điều khoản & Dịch vụ</a> của Merus.
+                            class="text-blue-500 hover:underline">Điều khoản & Dịch vụ</a> của SuperWeb.
                     </label>
                 </div>
                 <div class="p-4">

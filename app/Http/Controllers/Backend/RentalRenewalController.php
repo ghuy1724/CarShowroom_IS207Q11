@@ -27,48 +27,11 @@ class RentalRenewalController extends Controller
         // Lấy thông tin hóa đơn gốc
         $receipt = $renewal->rentalReceipt;
 
-        if ($receipt->status === 'Completed') {
-            // Trường hợp hợp đồng đã hết hạn
-            $newOrder = RentalOrder::create([
-                'user_id' => $receipt->rentalOrder->user_id,
-                'rental_id' => $receipt->rental_id,
-                'status' => 'Pending', // Trạng thái ban đầu của Order
-                'order_date' => now(),
-                'renew_order' => true, // Đánh dấu là Order gia hạn
-            ]);
-
-            $renewalType = 'completed'; // Dạng gia hạn: Hết hạn
-        } elseif ($receipt->status === 'Active') {
-            // Trường hợp hợp đồng còn hạn
-
-            $newEndDate = $renewal->new_end_date instanceof Carbon
-                ? $renewal->new_end_date
-                : Carbon::parse($renewal->new_end_date);
-
-            // Kiểm tra ngày gia hạn hợp lệ
-            if ($newEndDate <= $receipt->rental_end_date) {
-                toastr()->error('Ngày gia hạn phải lớn hơn ngày hiện tại.');
-                return redirect()->back();
-            }
-
-            // Tạo Order mới
-            $newOrder = RentalOrder::create([
-                'user_id' => $receipt->rentalOrder->user_id,
-                'rental_id' => $receipt->rental_id,
-                'status' => 'Pending', // Trạng thái ban đầu của Order
-                'order_date' => now(),
-                'renew_order' => true, // Đánh dấu là Order gia hạn
-            ]);
-
-            $renewalType = 'active'; // Dạng gia hạn: Còn hạn
-        }
-
-        // Tạo link thanh toán
+        // Tạo link thanh toán trực tiếp qua VNPay
+        // Gửi renewal_id để controller biết giá gia hạn từ bảng renewal
         $paymentLink = route('rental.payment.vnpay_renewal', [
-            'order_id' => $newOrder->order_id,
-            'amount' => $renewal->renewal_cost,
-            'renewal_type' => $renewalType,
-            'renewal_id' => $renewal->renewal_id,
+            'order_id' => $receipt->rentalOrder->order_id,
+            'renewal_id' => $renewal_id
         ]);
 
         // Gửi email thông báo
@@ -113,6 +76,22 @@ class RentalRenewalController extends Controller
         }
 
         return redirect()->route('rentalReceipt');
+    }
+
+    public function markAsFailed($renewal_id)
+    {
+        $renewal = RentalRenewal::findOrFail($renewal_id);
+        
+        // Chỉ cho phép chuyển sang Failed nếu đang là Approved (đã xử lý nhưng chưa thanh toán)
+        if ($renewal->status === 'Approved') {
+            $renewal->status = 'Failed';
+            $renewal->save();
+            toastr()->success('Đã cập nhật trạng thái gia hạn thành Thất bại.');
+        } else {
+            toastr()->error('Không thể cập nhật trạng thái này.');
+        }
+        
+        return redirect()->back();
     }
 
 

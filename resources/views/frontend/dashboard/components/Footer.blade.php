@@ -2,7 +2,7 @@
 <div class="flex items-center justify-center border-b-2 border-neutral-200 p-6 dark:border-white/10 lg:justify-between">
     <!-- Social network icons container -->
     <div class="flex justify-center">
-        <a href="https://www.facebook.com/ndth.30704/" class="me-6 [&>svg]:h-4 [&>svg]:w-4">
+        <a href="https://www.facebook.com/giahuy171024" class="me-6 [&>svg]:h-4 [&>svg]:w-4">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 320 512">
                 <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc. -->
                 <path
@@ -23,7 +23,7 @@
                     d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" />
             </svg>
         </a>
-        <a href="https://www.instagram.com/fuogie_huy/" class="me-6 [&>svg]:h-4 [&>svg]:w-4">
+        <a href="https://www.facebook.com/giahuy171024" class="me-6 [&>svg]:h-4 [&>svg]:w-4">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 448 512">
                 <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc. -->
                 <path
@@ -59,10 +59,10 @@
                             d="M12.378 1.602a.75.75 0 00-.756 0L3 6.632l9 5.25 9-5.25-8.622-5.03zM21.75 7.93l-9 5.25v9l8.628-5.032a.75.75 0 00.372-.648V7.93zM11.25 22.18v-9l-9-5.25v8.57a.75.75 0 00.372.648l8.628 5.033z" />
                     </svg>
                 </span>
-                Explore Merus Showroom
+                Explore SuperWeb Showroom
             </h6>
             <p>
-                At Merus, we bring you a premium selection of luxury cars, tailored to meet your style and
+                At SuperWeb, we bring you a premium selection of luxury cars, tailored to meet your style and
                 performance needs. Discover models that combine cutting-edge technology, refined craftsmanship, and
                 unmatched elegance. Visit us to find the perfect car for you.
             </p>
@@ -125,7 +125,7 @@
                             d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
                     </svg>
                 </span>
-                phuonghuy11252004@gmail.com
+                giahuy171024@gmail.com
             </p>
             <p class="mb-4 flex items-center justify-center md:justify-start">
                 <span class="me-3 [&>svg]:h-5 [&>svg]:w-5">
@@ -154,5 +154,5 @@
 <!--Copyright section-->
 <div class="bg-black/5 p-6 text-center">
     <span>© 2024 Copyright:</span>
-    <a class="font-semibold" href="https://tw-elements.com/">MERUS</a>
+    <a class="font-semibold" href="https://tw-elements.com/">SUPERWEB</a>
 </div>

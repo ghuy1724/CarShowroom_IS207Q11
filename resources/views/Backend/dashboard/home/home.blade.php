@@ -74,7 +74,7 @@
                                 </div>
                                 <button id="dateRangeButton" data-dropdown-toggle="dateRangeDropdown"
                                     data-dropdown-ignore-click-outside-class="datepicker" type="button"
-                                    class="inline-flex items-center text-blue-700 dark:text-blue-600 font-medium hover:underline">2024
+                                    class="inline-flex items-center text-blue-700 dark:text-blue-600 font-medium hover:underline">2025
                                 </button>
                             </div>
                             <div class="flex justify-end items-center">
@@ -275,7 +275,7 @@
             strokeDashArray: 4,
             padding: {
                 left: 2,
-                right: 2,
+                right: 20,
                 top: 0
             },
         },

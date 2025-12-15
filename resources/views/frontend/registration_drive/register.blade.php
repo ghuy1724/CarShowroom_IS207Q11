@@ -6,7 +6,7 @@
     <div class="w-1/2 p-4 bg-gray-100 rounded-lg ml-10 mt-10 shadow-xl">
         <div class="text-center mb-8">
             <h1 class="text-2xl font-semibold uppercase text-green-900">Test Drive Registration</h1>
-            <p>To register for a test drive, you need to provide your driver's license to Merus.</p>
+            <p>To register for a test drive, you need to provide your driver's license to SuperWeb.</p>
         </div>
         <form action="{{ route('email.RegisterTestDrive') }}" method="POST" class="space-y-6 max-w-[80%] mx-auto">
             @csrf 
@@ -74,7 +74,7 @@
             <div class="flex items-center space-x-2 mt-4">
                 <input type="checkbox" id="subscribe" name="subscribe" class="w-8 h-8 text-blue-600 border-gray-300 rounded focus:ring focus:ring-blue-600">
                 <label for="subscribe" class="text-[15px] text-gray-700">
-                    I agree to allow Merus Trading and Service Co., Ltd. to process my personal data and other information that I have provided
+                    I agree to allow SuperWeb Trading and Service Co., Ltd. to process my personal data and other information that I have provided
                 </label>
             </div>
         

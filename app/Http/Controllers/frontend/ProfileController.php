@@ -20,6 +20,12 @@ class ProfileController extends Controller
     {
         return view("frontend.profilepage.resetpass");
     }
+
+    function invoiceInfo(Request $request)
+    {
+         return view("frontend.profilepage.invoiceInfo");
+    }
+
     public function update(Request $request)
     {
         // Lấy thông tin người dùng từ session

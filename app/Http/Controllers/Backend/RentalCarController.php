@@ -20,6 +20,7 @@ class RentalCarController extends Controller
         // Lấy danh sách các xe từ rental_cars mà is_deleted = false
         $rentalCars = RentalCars::with('carDetails') // Eager load car details
             ->where('is_deleted', false) // Điều kiện is_deleted = false
+            ->orderBy('created_at', 'desc')
             ->get();
 
         // Lấy dữ liệu bổ sung cho bộ lọc

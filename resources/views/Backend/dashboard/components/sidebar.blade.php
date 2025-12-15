@@ -13,7 +13,7 @@
         <a href="{{route('dashboard')}}" class="flex items-center">
             <img alt="Logo" src="/assets/img/logo (2).png" class="h-90px w-auto mt-2" />
             <span class="font-bold uppercase text-blue-500"
-                style="font-size: 2rem; line-height: 4; position: relative; top: 8px; margin-left: 10px">MERUS
+                style="font-size: 2rem; line-height: 4; position: relative; top: 8px; margin-left: 10px">SUPERWEB
             </span>
         </a>
         <!--end::Logo-->

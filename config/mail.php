@@ -110,7 +110,7 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', '22520561@gm.uit.edu.vn'),
-        'name' => env('MAIL_FROM_NAME', 'Merus'),
+        'name' => env('MAIL_FROM_NAME', 'SuperWeb'),
     ],
 
 ];

@@ -96,7 +96,19 @@
                                         </td>
                                     </tr>
                                 </table>
-                            </div>                            
+                            </div>
+                            
+                            <!-- Payment Button for Remaining Balance -->
+                            @if($rentalOrder->rentalPayments->sum('remaining_amount') > 0)
+                                <div class="mt-6 text-center">
+                                    <form action="{{ route('rental.payment.vnpay_renewal') }}" method="GET">
+                                        <input type="hidden" name="order_id" value="{{ $rentalOrder->order_id }}">
+                                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition hover:scale-105 duration-200">
+                                            Thanh toán số tiền còn lại
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

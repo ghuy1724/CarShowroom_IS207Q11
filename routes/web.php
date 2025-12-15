@@ -95,6 +95,7 @@ Route::prefix('admin')->middleware(AuthenticateMiddleware::class)->group(functio
     Route::post('/rental-renewals/approve/{renewal_id}', [RentalRenewalController::class, 'approve'])->name('rental.renewals.approve');
     Route::post('/rental-renewals/reject/{renewal_id}', [RentalRenewalController::class, 'reject'])->name('rental.renewals.reject');
     Route::get('/admin/rental-renewals/{renewal_id}', [RentalRenewalController::class, 'show'])->name('rental.renewals.show');
+    Route::post('/rental-renewals/fail/{renewal_id}', [RentalRenewalController::class, 'markAsFailed'])->name('rental.renewals.markFailed');
 
     Route::get('/rental/extend/manual/search', [RentalRenewalController::class, 'showSearchPage'])->name('rental.extend.manual.search');
     // Load danh sách hóa đơn dựa trên số điện thoại
@@ -206,6 +207,7 @@ Route::prefix('password')->group(function () {
 
 // Route view profile
 Route::get('/view-profile', [ProfileController::class, 'viewprofile'])->name('view.profile');
+Route::get('/view-profile/invoice-info', [ProfileController::class, 'invoiceInfo'])->name('profile.invoice_info');
 Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
 // Rout view reset password

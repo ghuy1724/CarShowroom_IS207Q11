@@ -105,11 +105,11 @@
                 <!-- Left: Contact Info -->
                 <td class="contact-info" style="text-align: left;">
                     <p>Hotline: <a href="tel:0377892859" style="color: #00b140; text-decoration: none;">0377 829 859</a></p>
-                    <p>Website: <a href="https://www.facebook.com/anvanket1402" style="color: #00b140; text-decoration: none;" target="_blank">https://www.facebook.com/anvanket1402</a></p>
+                    <p>Website: <a href="https://www.facebook.com/giahuy171024" style="color: #00b140; text-decoration: none;" target="_blank">https://www.facebook.com/giahuy171024</a></p>
                 </td>
                 <!-- Right: Logo -->
                 <td style="text-align: right;">
-                    <img src="https://github.com/cotda/image/blob/main/logo%20(2).png?raw=true" alt="Merus Logo">
+                    <img src="https://github.com/cotda/image/blob/main/logo%20(2).png?raw=true" alt="SuperWeb Logo">
                 </td>
             </tr>
         </table>
@@ -117,7 +117,7 @@
         <!-- Body Content -->
         <div class="email-inf">
             <h1>Test Drive Notice</h1>
-            <p>Thank you for registering for a test drive with Merus.</p>
+            <p>Thank you for registering for a test drive with SuperWeb.</p>
         </div>
 
         <!-- Table -->
@@ -148,7 +148,7 @@
         <!-- Footer -->
         <div class="email-footer">
             <div class="thank-you-message">
-                <p style="font-weight: bold; color:#033e19">Thank you for registering for a test drive with Merus!</p>
+                <p style="font-weight: bold; color:#033e19">Thank you for registering for a test drive with SuperWeb!</p>
                 <p>We are excited to provide you with the best driving experience possible. If you have any questions or need assistance, feel free to contact us anytime.</p>
             </div>
         </div>

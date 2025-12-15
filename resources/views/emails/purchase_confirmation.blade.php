@@ -6,7 +6,7 @@
 <body style="font-family: Arial, sans-serif; color: #1a1a1a; margin: 0; padding: 0; background-color: #f5f5f5;">
     <div style="width: 100%; max-width: 700px; margin: 0 auto; background: #ffffff; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
         <div style="background-color: #1a237e; padding: 20px; text-align: center;">
-            <img src="https://raw.githubusercontent.com/cotda/image/refs/heads/main/logo%20(2).png" alt="Merus Auto Showroom Logo" style="width: 120px; height: auto; margin-bottom: 10px;">
+            <img src="https://raw.githubusercontent.com/cotda/image/refs/heads/main/logo%20(2).png" alt="SuperWeb Auto Showroom Logo" style="width: 120px; height: auto; margin-bottom: 10px;">
             <h1 style="font-size: 20px; color: #ffffff; margin: 10px 0 0; text-transform: uppercase;">Xác nhận Thanh Toán Đặt Cọc Mua Xe Thành Công</h1>
         </div>
         
@@ -16,7 +16,7 @@
             </div>
             
             <div style="font-size: 14px; line-height: 1.5; margin-bottom: 20px; color: #333333;">
-                Trân trọng cảm ơn Quý khách đã tin tưởng và lựa chọn dịch vụ mua xe tại <strong>Merus Auto Showroom</strong>. 
+                Trân trọng cảm ơn Quý khách đã tin tưởng và lựa chọn dịch vụ mua xe tại <strong>SuperWeb Auto Showroom</strong>. 
                 Chúng tôi xin xác nhận thông tin thanh toán đặt cọc của Quý khách như sau:
             </div>
             
@@ -54,7 +54,7 @@
             
             <div style="border-top: 1px solid #e0e0e0; padding-top: 20px; text-align: center; font-size: 12px; color: #666666;">
                 <p>Đây là email tự động. Vui lòng không trả lời email này.</p>
-                <p>&copy; 2025 Merus Auto Showroom. Tất cả các quyền được bảo lưu.</p>
+                <p>&copy; 2025 SuperWeb Auto Showroom. Tất cả các quyền được bảo lưu.</p>
             </div>
         </div>
     </div>

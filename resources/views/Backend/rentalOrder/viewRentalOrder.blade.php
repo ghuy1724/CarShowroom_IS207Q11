@@ -61,7 +61,10 @@
                                 @elseif ($receipt->status === 'Completed') bg-green-200 text-green-800
                                 @else bg-red-200 text-red-800
                                 @endif">
-                                {{ $receipt->status }}
+                                @if ($receipt->status === 'Active') Đang hoạt động
+                                @elseif ($receipt->status === 'Completed') Đã hoàn thành
+                                @else Đã hủy
+                                @endif
                             </span>
                         </p>
                     </div>
@@ -75,7 +78,7 @@
         <div class="text-center flex justify-center space-x-4">
 
             <!-- Nút thanh toán -->
-            @if ($order->status === 'Pending' || $order->status === 'Deposit Paid')
+            @if ($order->status === 'Deposit Paid')
                 <form action="{{ route('rentalOrders.completePayment', ['order_id' => $order->order_id]) }}" method="POST" class="inline-block">
                     @csrf
                     <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg">

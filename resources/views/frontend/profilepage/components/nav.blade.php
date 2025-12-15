@@ -61,19 +61,19 @@
             </a>
         </li>
         <li>
-            <a href="#" class="flex items-center text-gray-600 hover:text-blue-600"
+            <a href="{{ route('profile.invoice_info') }}" class="flex items-center text-gray-600 hover:text-blue-600"
                 data-section="thong-tin-xuat-hoa-don">
                 <i class="fas fa-file-invoice mr-3"></i> Thông tin xuất hóa đơn
             </a>
         </li>
         <li>
-            <a href="https://www.facebook.com/minhloc.caingoc" target="_blank"
+            <a href="https://www.facebook.com/giahuy171024" target="_blank"
                 class="flex items-center text-gray-600 hover:text-blue-600" data-section="yeu-cau-ho-tro">
                 <i class="fas fa-headset mr-3"></i> Yêu cầu hỗ trợ
             </a>
         </li>
         <li>
-            <a href="https://www.linkedin.com/in/l%E1%BB%99c-c%C3%A1i-b5b9b9259/" target="_blank"
+            <a href="https://www.facebook.com/giahuy171024" target="_blank"
                 class="flex items-center text-gray-600 hover:text-blue-600" data-section="lien-he">
                 <i class="fas fa-envelope mr-3"></i> Liên hệ
             </a>

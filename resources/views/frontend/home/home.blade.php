@@ -5,7 +5,7 @@
 
 
     <!-- Content Section -->
-    <div class="relative mx-auto max-w-2xl py-[20vh] sm:py-[25vh] lg:py-[30vh] z-10">
+    <div class="relative mx-auto max-w-2xl pt-[20vh] sm:pt-[25vh] lg:pt-[30vh] pb-10 z-10">
         <!-- Announcement Section -->
         <div class="hidden sm:mb-[2vh] sm:flex sm:justify-center">
             <div
@@ -21,19 +21,82 @@
             <h1 class="mt-[-15vh] text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl">
                 Discover Luxury Cars
             </h1>
-            <div class="grid place-items-center h-auto">
-                <img class="p-4 w-[200%] h-auto object-contain animate-car" src="{{ asset('assets/img/porsche4.png') }}"
-                    alt="Logo">
+            <div class="flex flex-col items-center justify-center mt-8 w-full">
+                <!-- Slider container -->
+                <div id="default-carousel" class="relative w-full max-w-5xl bg-white rounded-lg overflow-hidden"
+                    data-carousel="static">
+                    <!-- Carousel wrapper -->
+                    <div class="relative h-64 md:h-[500px] overflow-hidden">
+                        <!-- Slide 1 -->
+                        <div class="duration-700 ease-in-out" data-carousel-item>
+                            <img class="w-full h-full object-contain"
+                                src="{{ asset('assets/img/porsche1.png') }}" alt="Car Image">
+                        </div>
+                        <!-- Slide 2 -->
+                        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                            <img class="w-full h-full object-contain"
+                                src="{{ asset('assets/img/porsche2.png') }}" alt="Car Image">
+                        </div>
+                        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                            <img class="w-full h-full object-contain"
+                                src="{{ asset('assets/img/porsche3.png') }}" alt="Car Image">
+                        </div>
+                        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                            <img class="w-full h-full object-contain"
+                                src="{{ asset('assets/img/porsche4.png') }}" alt="Car Image">
+                        </div>
+                        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                            <img class="w-full h-full object-contain"
+                                src="{{ asset('assets/img/porsche5.png') }}" alt="Car Image">
+                        </div>
+                        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                            <img class="w-full h-full object-contain"
+                                src="{{ asset('assets/img/porsche6.png') }}" alt="Car Image">
+                        </div>
+                    </div>
+
+                    <!-- Slider controls -->
+                    <button type="button"
+                        class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                        data-carousel-prev onclick="updateInfo('prev')">
+                        <span
+                            class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-black/30 group-hover:bg-black/50 focus:ring-4 focus:ring-white group-focus:outline-none">
+                            <svg class="w-4 h-4 text-white rtl:rotate-180" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 1 1 5l4 4" />
+                            </svg>
+                            <span class="sr-only">Previous</span>
+                        </span>
+                    </button>
+                    <button type="button"
+                        class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                        data-carousel-next onclick="updateInfo('next')">
+                        <span
+                            class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-black/30 group-hover:bg-black/50 focus:ring-4 focus:ring-white group-focus:outline-none">
+                            <svg class="w-4 h-4 text-white rtl:rotate-180" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="m1 9 4-4-4-4" />
+                            </svg>
+                            <span class="sr-only">Next</span>
+                        </span>
+                    </button>
+                </div>
+
+                <!-- Information display container -->
+                <div id="car-info" class="relative text-center mt-4 z-10">
+                    <p><strong>Model</strong>: Porsche 911 Carrera</p>
+                    <p><strong>Seats</strong>: 4 seats</p>
+                    <p><strong>Range</strong>: ~ 350 km (NEDC)</p>
+                    <p><strong>Starting Price</strong>: 2,500,000,000 VND</p>
+                </div>
             </div>
             <p class="text-pretty text-lg font-medium sm:text-xl/8 text-gray-900" style="margin-top: 0vh;">
                 Experience the thrill of driving with our exclusive collection of high-performance vehicles.
                 Quality and elegance in every model, waiting for you to explore.
             </p>
-            <div class=" mt-[5vh] flex items-center justify-center gap-x-[2vw] ">
-                <a href="{{ route('CustomerDashBoard.bookingform') }}"
-                    class="rounded-md bg-indigo-600 px-[2vw] py-[1vh] text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
-                    Register For Consultation
-                </a>
+            <div class="mt-8 flex items-center justify-center">
                 <a href="{{ route('CarController.index') }}"
                     class="text-sm font-semibold text-gray-900 hover:underline" style="color: #4954F4;">
                     Learn more <span aria-hidden="true">→</span>
@@ -43,78 +106,7 @@
     </div>
 
 
-    <div class="flex items-center justify-center h-[40vh] bg-white mt-[-300px]">
-        <!-- Slider container -->
-        <div id="default-carousel" class="relative w-[120%] max-w-2xl bg-white rounded-lg overflow-hidden"
-            data-carousel="static">
-            <!-- Carousel wrapper -->
-            <div class="relative h-80 md:h-80 overflow-hidden" style="width: calc(100% + 20px);">
-                <!-- Slide 1 -->
-                <div class="duration-700 ease-in-out" data-carousel-item>
-                    <img class="p-0 w-full h-auto object-cover opacity-90 -translate-y-2.5" style="box-sizing: content-box;"
-                        src="{{ asset('assets/img/porsche1.png') }}" alt="Car Image">
-                </div>
-                <!-- Slide 2 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img class="p-0 w-full h-auto object-cover opacity-90 -translate-y-2.5" style="box-sizing: content-box;"
-                        src="{{ asset('assets/img/porsche2.png') }}" alt="Car Image">
-                </div>
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img class="p-0 w-full h-auto object-cover opacity-90 -translate-y-2.5" style="box-sizing: content-box;"
-                        src="{{ asset('assets/img/porsche3.png') }}" alt="Car Image">
-                </div>
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img class="p-0 w-full h-auto object-cover opacity-90 -translate-y-2.5" style="box-sizing: content-box;"
-                        src="{{ asset('assets/img/porsche4.png') }}" alt="Car Image">
-                </div>
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img class="p-0 w-full h-auto object-cover opacity-90 -translate-y-2.5" style="box-sizing: content-box;"
-                        src="{{ asset('assets/img/porsche5.png') }}" alt="Car Image">
-                </div>
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img class="p-0 w-full h-auto object-cover opacity-90 -translate-y-2.5" style="box-sizing: content-box;"
-                        src="{{ asset('assets/img/porsche6.png') }}" alt="Car Image">
-                </div>
-                <!-- Add more slides as needed -->
-            </div>
 
-            <!-- Slider controls -->
-            <button type="button"
-                class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-2 cursor-pointer group focus:outline-none"
-                data-carousel-prev onclick="updateInfo('prev')">
-                <span
-                    class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-600 group-hover:bg-gray-500 focus:ring-2 focus:ring-gray-500 group-focus:outline-none">
-                    <svg class="w-3 h-3 text-white rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M5 1 1 5l4 4" />
-                    </svg>
-                </span>
-                <span class="sr-only">Previous</span>
-            </button>
-            <button type="button"
-                class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-2 cursor-pointer group focus:outline-none"
-                data-carousel-next onclick="updateInfo('next')">
-                <span
-                    class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-600 group-hover:bg-gray-500 focus:ring-2 focus:ring-gray-500 group-focus:outline-none">
-                    <svg class="w-3 h-3 text-white rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m1 9 4-4-4-4" />
-                    </svg>
-                </span>
-                <span class="sr-only">Next</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- Information display container -->
-    <div id="car-info" class="relative text-center mt-4 z-10">
-        <p><strong>Model</strong>: Porsche 911 Carrera</p>
-        <p><strong>Seats</strong>: 4 seats</p>
-        <p><strong>Range</strong>: ~ 350 km (NEDC)</p>
-        <p><strong>Starting Price</strong>: 2,500,000,000 VND</p>
-    </div>
 
 
     <div class="flex items-center p-8 text-white h-[800px] rounded-[20px]"

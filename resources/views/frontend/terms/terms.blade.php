@@ -78,7 +78,7 @@
         
     </div>
     <footer class="bg-gray-800 text-white text-center py-4 mt-4">
-        <p>&copy; 2024 Công ty TNHH Merus. Tất cả các quyền được bảo lưu.</p>
+        <p>&copy; 2024 Công ty TNHH SuperWeb. Tất cả các quyền được bảo lưu.</p>
     </footer>
 </body>
 </html>

@@ -16,7 +16,7 @@ class OrderManagementController extends Controller
     public function index()
     {
         // Lấy danh sách tất cả các order
-        $orders = Order::with(['payments', 'salesCar.carDetails', 'account'])->get();
+        $orders = Order::with(['payments', 'salesCar.carDetails', 'account'])->orderBy('created_at', 'desc')->get();
 
         return view('Backend.order-management.index', compact('orders'));
     }

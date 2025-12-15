@@ -52,7 +52,11 @@
                                                     @elseif ($order->status === 'Paid') bg-success
                                                     @elseif ($order->status === 'Canceled') bg-danger
                                                     @endif">
-                                        {{ $order->status }}
+                                        @if ($order->status === 'Pending') Đang chờ xử lý
+                                        @elseif ($order->status === 'Deposit Paid') Đã đặt cọc
+                                        @elseif ($order->status === 'Paid') Đã thanh toán
+                                        @elseif ($order->status === 'Canceled') Đã hủy
+                                        @endif
                                     </span>
                                 </td>
                                 <td>
@@ -142,7 +146,10 @@
                         order.status === 'Deposit Paid' ? 'bg-primary' :
                             order.status === 'Paid' ? 'bg-success' :
                                 'bg-danger'
-                    }">${order.status}</span>
+                    }">${order.status === 'Pending' ? 'Đang chờ xử lý' :
+                        order.status === 'Deposit Paid' ? 'Đã đặt cọc' :
+                        order.status === 'Paid' ? 'Đã thanh toán' :
+                        'Đã hủy'}</span>
                             </td>
                             <td>
                                 <a href="/admin/rental-order/${order.order_id}" class="btn btn-outline-primary btn-sm me-2">

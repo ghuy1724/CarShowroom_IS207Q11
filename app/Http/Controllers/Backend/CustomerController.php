@@ -34,7 +34,7 @@ class CustomerController extends Controller
             'address' => $request->address,
             'is_verified' => false, // Luôn là chưa xác thực
             'email_verification_token' => Str::random(32), // Token trống
-            'password' => bcrypt('merus'), // Mật khẩu mặc định
+            'password' => bcrypt('superweb'), // Mật khẩu mặc định
         ]);
 
         Mail::send('emails.verify_email', ['token' => $account->email_verification_token], function ($message) use ($request) {

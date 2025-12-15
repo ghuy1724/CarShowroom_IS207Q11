@@ -23,25 +23,14 @@
 
                         <!-- Trạng thái -->
                         <div class="flex items-center gap-4">
+                            @php
+                                $isActive = $receipt->rentalOrder->status === 'Paid' && 
+                                            now()->between($receipt->rental_start_date, $receipt->rental_end_date);
+                            @endphp
                             <span class="px-3 py-1 rounded-full text-xs font-medium
-                                @if($receipt->is_renewal)
-                                    bg-blue-100 text-blue-800
-                                @elseif($receipt->status === 'Active')
-                                    bg-green-100 text-green-800
-                                @elseif($receipt->status === 'Completed')
-                                    bg-yellow-100 text-yellow-800
-                                @elseif($receipt->status === 'Canceled')
-                                    bg-red-100 text-red-800
-                                @endif">
-                                @if($receipt->is_renewal)
-                                    Active-Renewed
-                                @else
-                                    {{ $receipt->status }}
-                                @endif
+                                {{ $isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                {{ $isActive ? 'Khả dụng' : 'Không khả dụng' }}
                             </span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                            </svg>
                         </div>
                     </div>
                 </div>

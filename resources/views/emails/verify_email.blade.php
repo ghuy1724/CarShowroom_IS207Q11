@@ -61,7 +61,7 @@
     <div class="email-container">
         <!-- Header -->
         <div class="email-header">
-            <h1>Welcome to Merus</h1>
+            <h1>Welcome to SuperWeb</h1>
             <p>Your Account Verification</p>
         </div>
 
@@ -71,13 +71,13 @@
             <p>Thank you for registering with us! To complete your registration, please click the button below to verify your email address:</p>
             <a href="{{ route('verify.email', ['token' => $token]) }}" class="verify-button">Verify Account</a>
             <p style="margin-top: 20px;">If you did not create this account, please ignore this email or contact our support team.</p>
-            <p>Thank you,<br><strong>The Merus Team</strong></p>
+            <p>Thank you,<br><strong>The SuperWeb Team</strong></p>
         </div>
 
         <!-- Footer -->
         <div class="email-footer">
-            <p>If you need any help, contact us at <a href="mailto:support@merus.com" class="footer-link">support@merus.com</a></p>
-            <p>&copy; 2024 Merus. All rights reserved.</p>
+            <p>If you need any help, contact us at <a href="mailto:support@superweb.com" class="footer-link">support@superweb.com</a></p>
+            <p>&copy; 2024 SuperWeb. All rights reserved.</p>
         </div>
     </div>
 </body>

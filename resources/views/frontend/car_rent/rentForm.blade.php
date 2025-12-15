@@ -50,11 +50,18 @@
                 </div>
 
                 <!-- Thông báo lỗi -->
+                @if ($errors->any())
+                    <div class="fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-md transition-all duration-300 opacity-100 z-50">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div id="error-message" class="hidden fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-md transition-all duration-300 opacity-100">
                     Vui lòng nhập đầy đủ thông tin!
                 </div>
-
-
 
                 <!-- Tab content -->
                 <div id="info-content" class="tab-content px-6 pt-2 pb-2">
@@ -63,31 +70,31 @@
                         <!-- Họ và tên -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Họ và tên</label>
-                            <input type="text" name="name" id="name" required class="block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2" placeholder="Nguyễn Văn A" value="{{ $user->name }}">
+                            <input type="text" name="name" id="name" required class="block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2" placeholder="Nguyễn Văn A" value="{{ old('name', $user->name) }}">
                         </div>
 
                         <!-- Email -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                            <input type="email" name="email" id="email" required class="block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2" placeholder="nguyenvana@example.com" value="{{ $user->email }}">
+                            <input type="email" name="email" id="email" required class="block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2" placeholder="nguyenvana@example.com" value="{{ old('email', $user->email) }}">
                         </div>
 
                         <!-- Ngày bắt đầu thuê -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Ngày bắt đầu thuê</label>
-                            <input type="date" name="start_date" id="start_date" required class="block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2" min="{{ date('Y-m-d') }}">
+                            <input type="date" name="start_date" id="start_date" required class="block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2" min="{{ date('Y-m-d') }}" value="{{ old('start_date') }}">
                         </div>
 
                         <!-- Số điện thoại -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Số điện thoại</label>
-                            <input type="tel" name="phone" id="phone" required class="block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2" placeholder="+84 123 456 789" value="{{ $user->phone }}">
+                            <input type="tel" name="phone" id="phone" required class="block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2" placeholder="+84 123 456 789" value="{{ old('phone', $user->phone) }}">
                         </div>
 
                         <!-- Số ngày thuê -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Số ngày thuê</label>
-                            <input type="number" name="rental_days" id="rental_days" required min="1" value="1" class="block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2" onchange="calculateTotal()">
+                            <input type="number" name="rental_days" id="rental_days" required min="1" class="block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2" onchange="calculateTotal()" value="{{ old('rental_days', 1) }}">
                         </div>
 
                         <div>
@@ -144,7 +151,7 @@
                         <div class="flex justify-start items-center space-x-2 mt-6">
                             <input type="checkbox" id="agree-terms" class="w-5 h-5 border-gray-300 focus:ring-blue-500" required>
                             <label for="agree-terms" class="text-gray-700">
-                                Tôi đồng ý với các <a href="{{ route('CustomerDashBoard.terms') }}" target="_blank" class="text-blue-500 hover:underline">Điều khoản & Dịch vụ</a> của Merus.
+                                Tôi đồng ý với các <a href="{{ route('CustomerDashBoard.terms') }}" target="_blank" class="text-blue-500 hover:underline">Điều khoản & Dịch vụ</a> của SuperWeb.
                             </label>
                         </div>
 

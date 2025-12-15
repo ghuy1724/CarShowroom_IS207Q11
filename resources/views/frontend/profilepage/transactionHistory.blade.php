@@ -9,10 +9,7 @@
                     style="border: none; font-size: 18px; color: #007bff; font-weight: bold; border-bottom: 3px solid #007bff; background-color: transparent;">
                     Xe ô tô - Sản phẩm
                 </button>
-                <button class="tablinks px-4 py-2" onclick="openTab(event, 'rentalContainer')"
-                    style="border: none; font-size: 18px; color: #6c757d; background-color: transparent; font-weight: normal; border-bottom: 3px solid transparent;">
-                    Xe thuê
-                </button>
+
             </div>
 
             <!-- Danh sách giao dịch Xe ô tô và Sản phẩm -->
@@ -126,33 +123,7 @@
                 @endforeach
             </div>
 
-            <!-- Danh sách giao dịch Xe thuê -->
-            <div id="rentalContainer" class="tabcontent d-flex flex-column" style="display: none;">
-                @foreach ($rentalTransactions as $rentalTransaction)
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd; padding: 16px; border-radius: 12px; margin-bottom: 16px; background-color: #ffffff; width: 95%; margin-left: auto; margin-right: auto;">
-                        <!-- Ảnh và thông tin -->
-                        <a href="{{ route('rentalHistory.details', ['orderId' => $rentalTransaction->order_id]) }}">
-                            <div style="display: flex; align-items: center;">
-                                <!-- Ảnh -->
-                                <img src="{{ $rentalTransaction->rentalCar->carDetails->image_url ?? 'default-image.jpg' }}"
-                                    alt="Rental Car Image"
-                                    style="width: 70px; height: auto; border-radius: 8px; margin-right: 15px;">
-                                <!-- Thông tin -->
-                                <div>
-                                    <h4 style="margin: 0; font-weight: bold;">
-                                        {{ $rentalTransaction->rentalCar->carDetails->name ?? 'Không xác định' }}
-                                    </h4>
-                                    <p style="margin: 0; color: #6c757d;">Đơn hàng: {{ $rentalTransaction->order_id }}</p>
-                                </div>
-                            </div>
-                        </a>
 
-                        <!-- Trạng thái -->
-
-                    </div>
-                @endforeach
-            </div>
         </div>
     </div>
 </div>

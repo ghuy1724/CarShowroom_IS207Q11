@@ -17,9 +17,11 @@ class RevenueController extends Controller
         // Lấy tất cả thanh toán, bỏ qua các đơn hàng có status_order = 0 hoặc 2
         $payments = Payment::with(['order.account', 'order.salesCar.carDetails', 'order.accessories'])
             ->where('status_deposit', 1) // Chỉ lấy các thanh toán có status_deposit = 1
+            ->orderBy('payment_deposit_date', 'desc')
             ->get();
         $rentalPayments = RentalPayment::with(['rentalOrder.user', 'rentalOrder.rentalCar'])
             ->where('full_payment_status', 'Successful') // Chỉ lấy các thanh toán đã hoàn tất
+            ->orderBy('payment_date', 'desc')
             ->get();
         // Trả về view danh sách thanh toán
         return view('Backend.RevenueandStatistics.Revenueindex', compact('payments', 'rentalPayments'));

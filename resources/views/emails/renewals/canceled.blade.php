@@ -6,7 +6,7 @@
 <body style="font-family: Arial, sans-serif; color: #1a1a1a; margin: 0; padding: 0; background-color: #f5f5f5;">
     <div style="width: 100%; max-width: 700px; margin: 0 auto; background: #ffffff; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
         <div style="background-color: #d32f2f; padding: 20px; text-align: center;">
-            <img src="https://raw.githubusercontent.com/cotda/image/refs/heads/main/logo%20(2).png" alt="Merus Auto Showroom Logo" style="width: 120px; height: auto; margin-bottom: 10px;">
+            <img src="https://raw.githubusercontent.com/cotda/image/refs/heads/main/logo%20(2).png" alt="SuperWeb Auto Showroom Logo" style="width: 120px; height: auto; margin-bottom: 10px;">
             <h1 style="font-size: 20px; color: #ffffff; margin: 10px 0 0; text-transform: uppercase;">Gia Hạn Bị Hủy</h1>
         </div>
         
@@ -45,11 +45,11 @@
         <div style="background-color: #f8f9fc; padding: 20px; text-align: center; font-size: 14px; border-top: 1px solid #e0e0e0;">
             <p>Trân trọng,</p>
             <div style="font-weight: bold; color: #1a237e; margin: 10px 0;">CEO CÁI NGỌC MINH LỘC</div>
-            <div style="color: #4a4a4a; margin: 5px 0;">Merus Auto Showroom</div>
+            <div style="color: #4a4a4a; margin: 5px 0;">SuperWeb Auto Showroom</div>
             <div>
-                <a href="https://www.facebook.com/minhloc.caingoc" style="color: #1a237e; text-decoration: none; margin: 0 10px;">Facebook</a> |
-                <a href="https://www.instagram.com/cnml_2809/" style="color: #1a237e; text-decoration: none; margin: 0 10px;">Instagram</a> |
-                <a href="https://www.linkedin.com/in/l%E1%BB%99c-c%C3%A1i-b5b9b9259/" style="color: #1a237e; text-decoration: none; margin: 0 10px;">LinkedIn</a>
+                <a href="https://www.facebook.com/giahuy171024" style="color: #1a237e; text-decoration: none; margin: 0 10px;">Facebook</a> |
+                <a href="https://www.facebook.com/giahuy171024" style="color: #1a237e; text-decoration: none; margin: 0 10px;">Instagram</a> |
+                <a href="https://www.facebook.com/giahuy171024" style="color: #1a237e; text-decoration: none; margin: 0 10px;">LinkedIn</a>
             </div>
         </div>
     </div>

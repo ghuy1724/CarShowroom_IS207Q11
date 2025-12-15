@@ -28,7 +28,7 @@
         
         <div style="background-color: #f8f9fc; padding: 20px; text-align: center; font-size: 14px; border-top: 1px solid #e0e0e0;">
             <p>Trân trọng,</p>
-            <div style="font-weight: bold; color: #b71c1c;">Merus Auto Showroom</div>
+            <div style="font-weight: bold; color: #b71c1c;">SuperWeb Auto Showroom</div>
         </div>
     </div>
 </body>

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\RentalReceipt;
 use App\Models\RentalRenewal;
 use App\Models\Account;
+use App\Models\RentalPayment;
 
 class RentCarController extends Controller
 {
@@ -112,54 +113,109 @@ class RentCarController extends Controller
 
             // Tính ngày kết thúc thuê
             $rental_start_date = Carbon::parse($request->start_date); // Ngày bắt đầu do người dùng chọn
-            $rental_end_date = $rental_start_date->copy()->addDays($request->rental_days - 1)->endOfDay(); // Ngày kết thúc là 23:59 của ngày cuối cùng
+            // Logic: start_date + (rental_days - 1) days.
+            $rental_end_date = $rental_start_date->copy()->addDays($request->rental_days - 1)->endOfDay();
 
             // Lưu dữ liệu vào bảng rental_receipt
             DB::table('rental_receipt')->insert([
                 'order_id' => $orderId, // Lấy ID của đơn hàng vừa tạo
                 'rental_id' => $request->rental_id,
                 'rental_start_date' => $request->start_date,
-                'rental_end_date' => now()->addMinutes(2),
+                'rental_end_date' => $rental_end_date, // Use calculated end date
                 'rental_price_per_day' => $request->rental_price_per_day,
                 'total_cost' => $request->total_cost,
-                'status' => 'Active', // Trạng thái ban đầu là 'Active'
+                'status' => 'Active', 
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
 
-            DB::commit();
+            // --- Payment Logic Start ---
+            
+            // Lấy thông tin thanh toán
+            $paymentDepositAmount = str_replace(',', '', $request->deposit_amount); // Số tiền đặt cọc
+            $totalAmount = str_replace(',', '', $request->total_cost); // Tổng tiền
+            $remainingAmount = $totalAmount - $paymentDepositAmount; // Số dư còn lại
 
-            // Gửi email xác nhận
-            try {
-                $user = Account::find(auth('account')->id());
-                if ($user && $user->email) {
-                    Mail::send('emails.deposit_successful', [
-                        'name' => $user->name,
-                        'order_id' => $orderId,
-                        'start_date' => $request->start_date,
-                        'end_date' => Carbon::parse($request->start_date)->addDays($request->rental_days - 1)->format('Y-m-d'),
-                        'deposit_amount' => $request->deposit_amount,
-                        'total_cost' => $request->total_cost,
-                    ], function ($message) use ($user) {
-                        $message->to($user->email)->subject('Xác nhận đơn thuê xe');
-                    });
-                }
-            } catch (\Exception $e) {
-                Log::error('Failed to send rental confirmation email: ' . $e->getMessage());
+            // Tạo mã giao dịch duy nhất
+            $vnp_TxnRef = uniqid();
+
+            // Tạo bản ghi trong bảng rental_payments
+            RentalPayment::create([
+                'order_id' => $orderId,
+                'status_deposit' => 'Pending',
+                'full_payment_status' => 'Pending',
+                'deposit_amount' => $paymentDepositAmount,
+                'total_amount' => $totalAmount,
+                'remaining_amount' => $remainingAmount,
+                'due_date' => now()->addMinutes(5),
+                'payment_date' => now(),
+                'transaction_code' => $vnp_TxnRef,
+            ]);
+
+            // Cấu hình VNPAY
+            $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+            $vnp_Returnurl = route('rental.payment.vnpay_return'); // Đường dẫn trả về sau khi thanh toán
+            $vnp_TmnCode = env('VNPAY_TMN_CODE'); // Mã website tại VNPAY
+            $vnp_HashSecret = env('VNPAY_HASH_SECRET'); // Chuỗi bí mật
+            $vnp_BankCode = ''; // Để trống để VNPay hiển thị tất cả phương thức
+
+            $vnp_Amount = (float)$paymentDepositAmount * 100; // Đơn vị VND * 100
+            $vnp_IpAddr = $request->ip();
+            $vnp_OrderInfo = 'Thanh toán hóa đơn thuê xe #ORDER-' . $orderId;
+            $vnp_OrderType = 'billpayment';
+            $vnp_Locale = 'vn';
+
+            // Tạo dữ liệu cho VNPAY
+            $inputData = array(
+                "vnp_Version" => "2.1.0",
+                "vnp_TmnCode" => $vnp_TmnCode,
+                "vnp_Amount" => $vnp_Amount,
+                "vnp_Command" => "pay",
+                "vnp_CreateDate" => date('YmdHis'),
+                "vnp_CurrCode" => "VND",
+                "vnp_IpAddr" => $vnp_IpAddr,
+                "vnp_Locale" => $vnp_Locale,
+                "vnp_OrderInfo" => $vnp_OrderInfo,
+                "vnp_OrderType" => $vnp_OrderType,
+                "vnp_ReturnUrl" => $vnp_Returnurl,
+                "vnp_TxnRef" => $vnp_TxnRef,
+            );
+
+            if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+                $inputData['vnp_BankCode'] = $vnp_BankCode;
             }
 
-            // Chuyển hướng sang trang thanh toán VNPAY
-            return redirect()->route('rental.payment.vnpay', [
-                'order_id' => $orderId,
-                'total_amount' => $request->total_cost,
-                'payment_deposit_amount' => $request->deposit_amount
-            ]);
+            // Ký hash dữ liệu
+            ksort($inputData);
+            $query = "";
+            $i = 0;
+            $hashdata = "";
+            foreach ($inputData as $key => $value) {
+                if ($i == 1) {
+                    $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+                } else {
+                    $hashdata .= urlencode($key) . "=" . urlencode($value);
+                    $i = 1;
+                }
+                $query .= urlencode($key) . "=" . urlencode($value) . '&';
+            }
+
+            $vnp_Url = $vnp_Url . "?" . $query;
+            if (isset($vnp_HashSecret)) {
+                $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
+                $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+            }
+            
+            DB::commit();
+
+            // Redirect người dùng tới URL thanh toán
+            return redirect()->away($vnp_Url);
 
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Rental order creation failed: ' . $e->getMessage());
 
-            toastr()->error('Có lỗi xảy ra. Vui lòng thử lại.');
+            toastr()->error('Có lỗi xảy ra khi tạo đơn hàng. Vui lòng thử lại.');
             return redirect()->back()->withInput();
         }
     }

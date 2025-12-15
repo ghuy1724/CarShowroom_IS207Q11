@@ -19,16 +19,14 @@
                             
                             <div class="flex justify-between text-sm">
                                 <span class="text-gray-600">Trạng thái</span>
-                                <span class="px-3 py-1 rounded-full text-xs font-medium
-                                    @if($rentalReceipt->status === 'Active')
-                                        bg-green-100 text-green-800
-                                    @elseif($rentalReceipt->status === 'Canceled')
-                                        bg-red-100 text-red-800
-                                    @else
-                                        bg-yellow-100 text-yellow-800
-                                    @endif">
-                                    {{ $rentalReceipt->status }}
-                                </span>
+                                    @php
+                                        $isActive = $rentalReceipt->rentalOrder->status === 'Paid' && 
+                                                    now()->between($rentalReceipt->rental_start_date, $rentalReceipt->rental_end_date);
+                                    @endphp
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium
+                                        {{ $isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                        {{ $isActive ? 'Khả dụng' : 'Không khả dụng' }}
+                                    </span>
                             </div>
 
                             <div class="flex justify-between text-sm">
@@ -46,7 +44,7 @@
                                 <span class="text-blue-600 font-semibold">{{ number_format($rentalReceipt->total_cost, 0, ',', '.') }} VND</span>
                             </div>
 
-                            @if($rentalReceipt->status === 'Active' || $rentalReceipt->status === 'Completed')
+                            @if($isActive)
                                 <div class="space-y-4" x-data="{ isFormVisible: false }">
                                     <button
                                         @click="isFormVisible = !isFormVisible"

@@ -20,7 +20,7 @@ class RentalOrderController extends Controller
 {
     public function index()
     {
-        $orders = RentalOrder::with(['user', 'rentalCar.carDetails'])->paginate(10); // Eager loading for related data
+        $orders = RentalOrder::with(['user', 'rentalCar.carDetails'])->orderBy('created_at', 'desc')->paginate(10); // Eager loading for related data
         return view('Backend.rentalOrder.rentalOrderIndex', compact('orders'));
     }
 
@@ -41,7 +41,7 @@ class RentalOrderController extends Controller
             $query->where('status', $request->status);
         }
 
-        $orders = $query->get();
+        $orders = $query->orderBy('created_at', 'desc')->get();
 
         // Trả về JSON
         return response()->json(['orders' => $orders]);
