@@ -14,7 +14,7 @@ class ProfileController extends Controller
 {
     function viewprofile(Request $request)
     {
-        return view("frontend.profilepage.informationuser");
+        return view("frontend.profilepage.InformationUser");
     }
     function showResetPass(Request $request)
     {
@@ -128,17 +128,26 @@ class ProfileController extends Controller
 
     public function customer_car_detail($id)
     {
-        // Find the order by ID
-        $order = Order::with(['salesCar.carDetails'])
-            ->where('order_id', $id)
-            ->first();
+        $user = Auth::guard('account')->user();
+        $currentUserId = $user->id;
 
-        // Check if the order exists
-        if (!$order) {
-            return redirect()->back()->with('error', 'Order information not found.');
+        // Find the payment record with its relations
+        $payment = Payment::with([
+            'order.salesCar.carDetails',
+            'order.account'
+        ])
+        ->where('payment_id', $id)
+        ->whereHas('order', function ($query) use ($currentUserId) {
+            $query->where('account_id', $currentUserId);
+        })
+        ->first();
+
+        // Check if the payment exists
+        if (!$payment) {
+            return redirect()->back()->with('error', 'Thông tin đơn hàng không tìm thấy.');
         }
 
-        // Return the view to display order details
-        return view('frontend.profilepage.customerCarDetails', compact('order'));
+        // Return the view to display payment details
+        return view('frontend.profilepage.customerCarDetails', compact('payment'));
     }
 }
