@@ -46,7 +46,7 @@ class RentalPaymentController extends Controller
             'total_amount' => $totalAmount,
             'remaining_amount' => $remainingAmount,
             'due_date' => now()->addMinutes(5),
-            'payment_date' => now(),
+            'payment_date' => null,
             'transaction_code' => $vnp_TxnRef,
         ]);
 
@@ -134,12 +134,35 @@ class RentalPaymentController extends Controller
                     $payment = RentalPayment::where('transaction_code', $transactionCode)->first();
                     if ($payment) {
                         $order = RentalOrder::find($payment->order_id);
-                        $payment->update([
-                            'status_deposit' => 'Successful',
-                            'due_date' => now()->addMinutes(5),
-                        ]);
+                        
+                        // Check if this is a deposit payment or full payment
+                        $isDepositPayment = $payment->deposit_amount > 0 && $payment->remaining_amount > 0;
+                        
+                        if ($isDepositPayment) {
+                            // This is a deposit payment
+                            $payment->update([
+                                'status_deposit' => 'Successful',
+                                'payment_date' => now(),
+                                'due_date' => now()->addDays(3),
+                            ]);
+                            $orderStatus = 'Deposit Paid';
+                            $mailClass = DepositSuccessfulNotification::class;
+                            $successMsg = 'Thanh toán đặt cọc thành công!';
+                        } else {
+                            // This is a full payment
+                            $payment->update([
+                                'status_deposit' => 'Successful',
+                                'full_payment_status' => 'Successful',
+                                'payment_date' => now(),
+                                'remaining_amount' => 0,
+                            ]);
+                            $orderStatus = 'Paid';
+                            $mailClass = \App\Mail\FullPaymentConfirmationMail::class;
+                            $successMsg = 'Thanh toán toàn bộ thành công!';
+                        }
+                        
                         if ($order) {
-                            $order->update(['status' => 'Deposit Paid']);
+                            $order->update(['status' => $orderStatus]);
                             $rental = RentalCars::find($order->rental_id);
                             if ($rental) {
                                 $rental->update(['availability_status' => 'Rented']);
@@ -148,9 +171,9 @@ class RentalPaymentController extends Controller
                             // Lấy dữ liệu từ bảng rental_receipt
                             $rentalReceipt = DB::table('rental_receipt')->where('order_id', $order->order_id)->first();
 
-                            // Gửi email xác nhận đặt cọc thành công
+                            // Gửi email xác nhận
                             try {
-                                Mail::to($order->user->email)->send(new DepositSuccessfulNotification([
+                                Mail::to($order->user->email)->send(new $mailClass([
                                     'name' => $order->user->name,
                                     'order_id' => $order->order_id,
                                     'start_date' => $rentalReceipt->rental_start_date,
@@ -159,10 +182,10 @@ class RentalPaymentController extends Controller
                                     'total_cost' => $payment->total_amount,
                                 ]));
 
-                                toastr()->success("Thanh toán đặt cọc thành công và email xác nhận đã được gửi.");
+                                toastr()->success($successMsg . ' Email xác nhận đã được gửi.');
                             } catch (\Exception $e) {
                                 Log::error('Gửi email thất bại: ' . $e->getMessage());
-                                toastr()->warning("Thanh toán đặt cọc thành công nhưng không gửi được email xác nhận.");
+                                toastr()->warning($successMsg . ' nhưng không gửi được email xác nhận.');
                             }
                         }
                     }

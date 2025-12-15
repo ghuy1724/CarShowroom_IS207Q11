@@ -119,7 +119,7 @@ class RentCarController extends Controller
                 'order_id' => $orderId, // Lấy ID của đơn hàng vừa tạo
                 'rental_id' => $request->rental_id,
                 'rental_start_date' => $request->start_date,
-                'rental_end_date' => now()->addMinutes(2),
+                'rental_end_date' => $rental_end_date,
                 'rental_price_per_day' => $request->rental_price_per_day,
                 'total_cost' => $request->total_cost,
                 'status' => 'Active', // Trạng thái ban đầu là 'Active'

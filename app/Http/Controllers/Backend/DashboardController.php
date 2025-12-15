@@ -28,8 +28,9 @@ class DashboardController extends Controller
             ->pluck('total', 'month')
             ->toArray();
 
-        // Doanh thu từ RentalPayment
+        // Doanh thu từ RentalPayment - chỉ tính những payment đã thành công (không null)
         $rentalRevenues = RentalPayment::selectRaw('MONTH(payment_date) as month, SUM(total_amount) as total')
+            ->whereNotNull('payment_date')
             ->whereYear('payment_date', date('Y'))
             ->groupByRaw('MONTH(payment_date)')
             ->pluck('total', 'month')
