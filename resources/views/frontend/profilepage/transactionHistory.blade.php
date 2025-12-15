@@ -9,6 +9,10 @@
                     style="border: none; font-size: 18px; color: #007bff; font-weight: bold; border-bottom: 3px solid #007bff; background-color: transparent;">
                     Xe ô tô - Sản phẩm
                 </button>
+                <button class="tablinks px-4 py-2" onclick="openTab(event, 'rentalContainer')"
+                    style="border: none; font-size: 18px; color: #6c757d; font-weight: normal; border-bottom: 3px solid transparent; background-color: transparent;">
+                    Thuê xe
+                </button>
 
             </div>
 
@@ -120,6 +124,101 @@
                                             </div>
                                         </div>
                             @endif
+                @endforeach
+            </div>
+
+            <!-- Danh sách giao dịch Thuê xe -->
+            <div id="rentalContainer" class="tabcontent d-flex flex-column" style="display: none;">
+                @foreach ($rentalTransactions as $transaction)
+                        @php
+                            // Determine status from payment
+                            $payment = $transaction->rentalPayments->first(); 
+                            
+                            $depositStatus = 'Chưa đặt cọc';
+                            $depositColor = '#e3e3e3'; 
+                            $depositTextColor = '#1e1e1e';
+
+                            $fullPaymentStatus = 'Chưa thanh toán hết';
+                            $fullPaymentColor = '#ffc107'; // yellow
+                            $fullPaymentTextColor = '#1e1e1e';
+
+                            if ($payment) {
+                                // Deposit Status Logic
+                                if ($payment->status_deposit === 'Successful') {
+                                    $depositStatus = 'Đã đặt cọc';
+                                    $depositColor = '#28a745'; // green
+                                    $depositTextColor = '#fff';
+                                } elseif ($payment->status_deposit === 'Failed' || $payment->status_deposit === 'Canceled') {
+                                     $depositStatus = 'Không đặt cọc';
+                                     $depositColor = '#dc3545'; // red
+                                     $depositTextColor = '#fff';
+                                } else {
+                                    // Pending or other
+                                    $depositStatus = 'Chờ đặt cọc';
+                                }
+
+                                // Full Payment Status Logic
+                                if ($payment->full_payment_status === 'Successful' || $payment->remaining_amount == 0) {
+                                    $fullPaymentStatus = 'Đã thanh toán hết';
+                                    $fullPaymentColor = '#28a745'; // green
+                                    $fullPaymentTextColor = '#fff';
+                                } elseif ($payment->status_deposit === 'Successful') {
+                                     // Deposited but remaining > 0
+                                     $fullPaymentStatus = 'Không thanh toán hết'; 
+                                     $fullPaymentColor = '#ffc107'; // yellow
+                                     $fullPaymentTextColor = '#1e1e1e';
+                                } else {
+                                    // Not deposited or failed
+                                    $fullPaymentStatus = 'Không thanh toán hết';
+                                    $fullPaymentColor = '#dc3545'; // red
+                                    $fullPaymentTextColor = '#fff';
+                                }
+                            } else {
+                                $depositStatus = 'Không đặt cọc';
+                                $depositColor = '#dc3545';
+                                $depositTextColor = '#fff';
+                                $fullPaymentStatus = 'Không thanh toán hết';
+                                $fullPaymentColor = '#dc3545';
+                                $fullPaymentTextColor = '#fff';
+                            }
+
+                            // If user explicitly asks for 'không đặt cọc' and 'không thanh toán hết' specifically map them:
+                            if ($depositStatus == 'Chờ đặt cọc') $depositStatus = 'Không đặt cọc'; 
+
+                            $imageUrl = $transaction->rentalCar->carDetails->image_url ?? 'default-image.jpg';
+                        @endphp
+
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd; padding: 16px; border-radius: 12px; margin-bottom: 16px; background-color: #ffffff; width: 95%; margin-left: auto; margin-right: auto;">
+                            <!-- Ảnh và thông tin -->
+                            <a href="{{ route('rentalHistory.details', ['orderId' => $transaction->order_id]) }}">
+                                <div style="display: flex; align-items: center;">
+                                    <!-- Ảnh xe -->
+                                    <img src="{{ $imageUrl }}" alt="Image"
+                                        style="width: 70px; height: auto; border-radius: 8px; margin-right: 15px;">
+                                    <!-- Thông tin -->
+                                    <div>
+                                        <h4 style="margin: 0; font-weight: bold;">
+                                            {{ $transaction->rentalCar->carDetails->name ?? 'Xe thuê' }}
+                                        </h4>
+                                        <p style="margin: 0; color: #6c757d;">Phân loại: <strong>Thuê xe</strong></p>
+                                        <p style="margin: 0; color: #6c757d;">Mã đơn: {{ $transaction->order_id }}</p>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <!-- Trạng thái -->
+                            <div>
+                                <span class="px-3 py-1 rounded-full text-sm font-medium"
+                                    style="background-color: {{ $depositColor }}; color: {{ $depositTextColor }}; margin-right: 10px;">
+                                    {{ $depositStatus }}
+                                </span>
+                                <span class="px-3 py-1 rounded-full text-sm font-medium"
+                                    style="background-color: {{ $fullPaymentColor }}; color: {{ $fullPaymentTextColor }};">
+                                    {{ $fullPaymentStatus }}
+                                </span>
+                            </div>
+                        </div>
                 @endforeach
             </div>
 

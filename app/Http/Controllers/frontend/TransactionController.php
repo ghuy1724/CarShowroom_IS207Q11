@@ -28,7 +28,7 @@ class TransactionController extends Controller
         ->get();
 
         // Dữ liệu xe thuê
-        $rentalTransactions = RentalOrder::with('rentalCar.carDetails') // Nạp quan hệ: RentalOrder -> RentalCar
+        $rentalTransactions = RentalOrder::with(['rentalCar.carDetails', 'rentalPayments']) // Nạp quan hệ: RentalOrder -> RentalCar và RentalPayment
             ->where('user_id', $currentUserId) // Lọc các rental order của khách hàng đang đăng nhập
             ->orderBy('order_date', 'desc') // Sắp xếp theo ngày tạo đơn
             ->get();

@@ -41,7 +41,7 @@
                         <tr>
                             <th scope="col">Mã đơn hàng</th>
                             <th scope="col">Khách hàng</th>
-                            <th scope="col">Xe</th>
+                            <th scope="col">Sản phẩm</th>
                             <th scope="col">Ngày tạo</th>
                             <th scope="col">Trạng thái đặt cọc</th>
                             <th scope="col">Trạng thái thanh toán</th>
@@ -75,19 +75,24 @@
                                                     <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d/m/Y') }}</td>
                                                     <td>
                                                         @php
-                                                            $statusDeposit = optional($order->payments->first())->status_deposit;
-                                                            $statusColorDeposit = match ($statusDeposit) {
-                                                                0 => 'bg-warning text-dark',
-                                                                1 => 'bg-success',
-                                                                2 => 'bg-danger',
-                                                                default => 'bg-secondary'
-                                                            };
-                                                            $statusTextDeposit = match ($statusDeposit) {
-                                                                0 => 'Đang chờ đặt cọc',
-                                                                1 => 'Đã đặt cọc',
-                                                                2 => 'Không đặt cọc',
-                                                                default => 'Chưa rõ'
-                                                            };
+                                                            if ($vehicleText === 'Phụ kiện') {
+                                                                $statusColorDeposit = 'bg-danger';
+                                                                $statusTextDeposit = 'Không đặt cọc';
+                                                            } else {
+                                                                $statusDeposit = optional($order->payments->first())->status_deposit;
+                                                                $statusColorDeposit = match ($statusDeposit) {
+                                                                    0 => 'bg-warning text-dark',
+                                                                    1 => 'bg-success',
+                                                                    2 => 'bg-danger',
+                                                                    default => 'bg-secondary'
+                                                                };
+                                                                $statusTextDeposit = match ($statusDeposit) {
+                                                                    0 => 'Đang chờ đặt cọc',
+                                                                    1 => 'Đã đặt cọc',
+                                                                    2 => 'Không đặt cọc',
+                                                                    default => 'Chưa rõ'
+                                                                };
+                                                            }
                                                         @endphp
                                                         <span class="badge rounded-pill {{ $statusColorDeposit }}">
                                                             {{ $statusTextDeposit }}
@@ -96,6 +101,12 @@
                                                     <td>
                                                         @php
                                                             $statusPayment = optional($order->payments->first())->status_payment_all;
+
+                                                            // Nếu là Phụ kiện, gộp trạng thái 'Đang chờ' (0) thành 'Không thanh toán' (2)
+                                                            if ($vehicleText === 'Phụ kiện' && $statusPayment == 0) {
+                                                                $statusPayment = 2;
+                                                            }
+
                                                             $statusColorPayment = match ($statusPayment) {
                                                                 0 => 'bg-warning text-dark',
                                                                 1 => 'bg-success',

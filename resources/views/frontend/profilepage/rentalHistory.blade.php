@@ -3,7 +3,7 @@
 @section('main')
 <div class="bg-gray-50 py-8">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Lịch sử thuê xe của bạn</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Gia hạn thuê xe của bạn</h2>
 
         <div class="space-y-4">
             @forelse ($rentalReceipts as $receipt)
@@ -24,7 +24,7 @@
                         <!-- Trạng thái -->
                         <div class="flex items-center gap-4">
                             @php
-                                $isActive = $receipt->rentalOrder->status === 'Paid' && 
+                                $isActive = in_array($receipt->rentalOrder->status, ['Paid', 'Deposit Paid']) && 
                                             now()->between($receipt->rental_start_date, $receipt->rental_end_date);
                             @endphp
                             <span class="px-3 py-1 rounded-full text-xs font-medium

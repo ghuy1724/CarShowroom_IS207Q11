@@ -14,11 +14,14 @@ class RentalHistoryController extends Controller
         // Lấy user hiện tại
         $userId = Auth::guard('account')->user()->id;
 
-        // Lấy tất cả các biên lai thuê xe của khách hàng
+        // Lấy tất cả các biên lai thuê xe của khách hàng thỏa mãn điều kiện
         $rentalReceipts = RentalReceipt::whereHas('rentalOrder', function ($query) use ($userId) {
             $query->where('user_id', $userId)
-                ->whereIn('status', ['Pending', 'Deposit Paid', 'Paid']); // Lấy tất cả trạng thái liên quan
-        })->with(['rentalCar.carDetails', 'rentalOrder'])
+                ->where('status', 'Paid'); // Chỉ lấy đơn đã thanh toán đầy đủ
+        })
+        ->where('rental_start_date', '<=', now()) // Đã bắt đầu
+        ->where('rental_end_date', '>=', now())   // Chưa kết thúc
+        ->with(['rentalCar.carDetails', 'rentalOrder'])
         ->orderBy('created_at', 'desc')
         ->get();
 

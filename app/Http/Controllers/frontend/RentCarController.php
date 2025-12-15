@@ -121,11 +121,7 @@ class RentCarController extends Controller
                 'order_id' => $orderId, // Lấy ID của đơn hàng vừa tạo
                 'rental_id' => $request->rental_id,
                 'rental_start_date' => $request->start_date,
-<<<<<<< HEAD
                 'rental_end_date' => $rental_end_date, // Use calculated end date
-=======
-                'rental_end_date' => $rental_end_date,
->>>>>>> 629394381f3b6eef8a6745ba920ed17d04979b89
                 'rental_price_per_day' => $request->rental_price_per_day,
                 'total_cost' => $request->total_cost,
                 'status' => 'Active', 
@@ -136,8 +132,9 @@ class RentCarController extends Controller
             // --- Payment Logic Start ---
             
             // Lấy thông tin thanh toán
-            $paymentDepositAmount = str_replace(',', '', $request->deposit_amount); // Số tiền đặt cọc
-            $totalAmount = str_replace(',', '', $request->total_cost); // Tổng tiền
+            // Clean amount: remove all non-numeric characters (assuming VND is integer)
+            $paymentDepositAmount = preg_replace('/[^0-9]/', '', $request->deposit_amount); 
+            $totalAmount = preg_replace('/[^0-9]/', '', $request->total_cost);
             $remainingAmount = $totalAmount - $paymentDepositAmount; // Số dư còn lại
 
             // Tạo mã giao dịch duy nhất
@@ -163,7 +160,7 @@ class RentCarController extends Controller
             $vnp_HashSecret = env('VNPAY_HASH_SECRET'); // Chuỗi bí mật
             $vnp_BankCode = ''; // Để trống để VNPay hiển thị tất cả phương thức
 
-            $vnp_Amount = (float)$paymentDepositAmount * 100; // Đơn vị VND * 100
+            $vnp_Amount = (int)$paymentDepositAmount * 100; // Đơn vị VND * 100, ensure integer
             $vnp_IpAddr = $request->ip();
             $vnp_OrderInfo = 'Thanh toán hóa đơn thuê xe #ORDER-' . $orderId;
             $vnp_OrderType = 'billpayment';
