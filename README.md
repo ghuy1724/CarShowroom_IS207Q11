@@ -52,7 +52,7 @@ This is a **Web Programming** course project aimed at building a car showroom ma
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/minhloc289/CarShowroom.git
+   https://github.com/ghuy1724/CarShowroom_IS207Q11
    ```
 2. **Install dependencies**:
    ```bash
