@@ -85,19 +85,19 @@
         <!-- Useful links section -->
         <div>
             <h6 class="mb-4 flex justify-center font-semibold uppercase md:justify-start">
-                Useful links
+                Services
             </h6>
             <p class="mb-4">
-                <a href="#!">Pricing</a>
+                <a href="{{ route('CarController.index') }}">Buy Car</a>
             </p>
             <p class="mb-4">
-                <a href="#!">Settings</a>
+                <a href="{{route('rent.car')}}">Rent Car</a>
             </p>
             <p class="mb-4">
-                <a href="#!">Orders</a>
+                <a href="{{ route('CustomerDashBoard.registration') }}">Test Drive Registration</a>
             </p>
             <p>
-                <a href="#!">Help</a>
+                <a href="{{ route('CustomerDashBoard.accsessories') }}">Buy Accessories</a>
             </p>
         </div>
         <!-- Contact section -->

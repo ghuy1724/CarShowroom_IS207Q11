@@ -1,7 +1,7 @@
 @extends('frontend.layouts.App')
 
 @section('content')
-<div class="relative bg-gradient-to-b from-[#E9D5FF] via-[#DBEAFE] to-[#FFFFFF] min-h-screen py-10">
+<div class="relative bg-gradient-to-b from-[#E5E5E5] via-[#C8C8C8] to-[#FFFFFF] min-h-screen py-10">
   <div class="container mx-auto px-4">
     <!-- Hero Section -->
     <div class="bg-white bg-opacity-40 shadow-lg rounded-xl p-10 mb-10">
@@ -9,11 +9,11 @@
         <!-- Left Text Section -->
         <div>
           <h1 class="text-3xl font-bold text-gray-800">
-            Australia's leading platform for <span class="text-blue-600">vehicle</span> trading.
+            Viet Nam's leading platform for <span class="text-blue-600" style="color: #4783a3ff">vehicle</span> trading.
           </h1>
           <div class="mt-6 flex space-x-4">
             <a href="{{ route('CustomerDashBoard.compare') }}">
-              <button class="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800">Compare Cars</button></a>
+              <button class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-black">Compare Cars</button></a>
             <a href="{{route('rent.car')}}">
               <button class="border border-black text-black px-6 py-3 rounded-lg hover:bg-gray-200">Rental
                 Car</button></a>
@@ -21,7 +21,7 @@
         </div>
         <!-- Right Image Section -->
         <div class="w-1/2">
-          <img src="https://porsche-vietnam.vn/wp-content/uploads/2023/02/982-718-bo-se-modelimage-sideshot-840x473.png"
+          <img src="https://porsche-vietnam.vn/wp-content/uploads/2013/11/porsche-718-boxster-model.png"
             alt="Car" class="object-contain rounded-lg">
         </div>
       </div>

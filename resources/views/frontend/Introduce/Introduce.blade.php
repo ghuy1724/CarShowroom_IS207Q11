@@ -16,11 +16,11 @@
 
        <!-- Tiêu đề và mô tả -->
        <div class="absolute inset-0 flex flex-col items-center justify-center text-center text-white z-10">
-        <h1 class="text-4xl font-bold drop-shadow-lg">Welcome to Our Car Showroom</h1>
+        <h1 class="text-4xl font-bold drop-shadow-lg">Welcome to our car Showroom</h1>
         <p class="mt-4 text-lg drop-shadow-lg">
-            Experience the future of driving with our luxury and performance cars.
+            Experience the future of driving with our luxury and performance cars
         </p>
-        <a href="#learnMore" class="mt-6 px-6 py-3 bg-blue-600 rounded-full text-white hover:bg-blue-800 transition">
+        <a href="#learnMore" class="mt-6 px-6 py-3 bg-gray-600 rounded-full text-white hover:bg-black transition">
             Learn More
         </a>
     </div>
@@ -31,10 +31,10 @@
     <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <!-- Phần Văn Bản -->
         <div>
-            <h2 class="text-4xl font-bold" style="color: #0C6478">The perfect balance of luxury and performance</h2>
+            <h2 class="text-4xl font-bold" style="color: #4f5152ff">The perfect balance of luxury and performance</h2>
             <p class="text-xl font-semibold text-gray-800 mt-5">
                 Discover perfection in every detail with 
-                <a href="#" class="text-indigo-500 hover:text-indigo-800 font-bold ">
+                <a href="#" class="text-indigo-500 hover:text-indigo-800 font-bold " style="color: #497085ff">
                     Porsche Panamera
                 </a> 
                 a seamless blend of outstanding performance and sophisticated design, delivering an inspiring driving experience.
@@ -54,7 +54,7 @@
 
 <!-- Section: Highlights -->
 <section class="bg-gray-50 py-16 mt-10">
-    <h2 class="text-4xl font-bold text-center mb-8" style="color: #0C6478">Why Choose Us</h2>
+    <h2 class="text-4xl font-bold text-center mb-8" style="color: #4f5152ff">Why Choose Us</h2>
     <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="text-center group relative overflow-hidden">
             <img 
