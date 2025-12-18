@@ -19,7 +19,7 @@
         <!-- Main Content Section -->
         <div class="text-center">
             <h1 class="mt-[-15vh] text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl">
-                Discover Luxury Cars
+                Discover Our Cars
             </h1>
             <div class="flex flex-col items-center justify-center mt-8 w-full">
                 <!-- Slider container -->
@@ -292,7 +292,7 @@
         <div class="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-12">
             <!-- Stat 1 -->
             <div class="text-center">
-                <h2 class="text-4xl font-bold">25+</h2>
+                <h2 class="text-4xl font-bold">88+</h2>
                 <p class="text-gray-400">Satisfied clients</p>
             </div>
 
@@ -301,7 +301,7 @@
 
             <!-- Stat 2 -->
             <div class="text-center">
-                <h2 class="text-4xl font-bold">1M+</h2>
+                <h2 class="text-4xl font-bold">100K+</h2>
                 <p class="text-gray-400">Customers acquired</p>
             </div>
 
@@ -310,7 +310,7 @@
 
             <!-- Stat 3 -->
             <div class="text-center">
-                <h2 class="text-4xl font-bold">$90M</h2>
+                <h2 class="text-4xl font-bold">$88M</h2>
                 <p class="text-gray-400">Generated revenue</p>
             </div>
         </div>

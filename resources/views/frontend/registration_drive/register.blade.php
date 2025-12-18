@@ -31,7 +31,7 @@
                 <div class="w-1/2">
                     <label for="car_type" class="block text-sm font-medium text-gray-700">Car Brand *</label>
                     <select id="car_type" name="car_type" class="mt-1 w-full px-3 py-2 rounded-md border-gray-300 focus:outline-none focus:ring focus:ring-blue-600 focus:ring-opacity-50" required>
-                        <option value="">Select Car Brand</option>
+                        <option value="">Car Brand</option>
                         @foreach ($carsByBrand as $brand => $cars)
                             <option value="{{ $brand }}">{{ $brand }}</option>
                         @endforeach
@@ -42,7 +42,7 @@
                 <div class="w-1/2">
                     <label for="car_model" class="block text-sm font-medium text-gray-700">Car Name *</label>
                     <select id="car_model" name="car_model" class="mt-1 w-full px-3 py-2 rounded-md border-gray-300 focus:outline-none focus:ring focus:ring-blue-600 focus:ring-opacity-50" required>
-                        <option value="">Select Car Name</option>
+                        <option value="">Car Name</option>
                     </select>
                 </div>
             </div>
@@ -50,7 +50,7 @@
             {{-- ngày lái thử  --}}
 
             <div>
-                <label for="test_drive_date" class="block text-sm font-medium text-gray-700">Select Test Drive Date *</label>
+                <label for="test_drive_date" class="block text-sm font-medium text-gray-700">Test Drive Date *</label>
                 <input type="date" id="test_drive_date" name="test_drive_date" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-600 focus:ring-opacity-50" required>
             </div>
             
@@ -64,6 +64,13 @@
             <input type="text" class="hidden" name="car_url" id="car_url" value="">
             <input type="text" class="hidden" name="car_id" id="car_id" value="">
     
+            <div class="flex items-center space-x-2 mt-4">
+                <input type="checkbox" id="subscribe" name="subscribe" class="w-8 h-8 text-blue-600 border-gray-300 rounded focus:ring focus:ring-blue-600">
+                <label for="subscribe" class="text-[15px] text-gray-700">
+                    I agree to allow SuperWeb Trading and Service Co., Ltd. to process my personal data and other information that I have provided
+                </label>
+            </div>
+
             <!-- Nút đăng ký -->
             <div class="flex justify-center">
                 <button id="register-button" class="w-full py-2 px-4 bg-gray-400 text-white rounded-md cursor-not-allowed uppercase" disabled>
@@ -71,14 +78,9 @@
                 </button>
             </div>
             
-            <div class="flex items-center space-x-2 mt-4">
-                <input type="checkbox" id="subscribe" name="subscribe" class="w-8 h-8 text-blue-600 border-gray-300 rounded focus:ring focus:ring-blue-600">
-                <label for="subscribe" class="text-[15px] text-gray-700">
-                    I agree to allow SuperWeb Trading and Service Co., Ltd. to process my personal data and other information that I have provided
-                </label>
-            </div>
+            
         
-            <p class="text-sm text-gray-600 text-center mt-4">For any inquiries, please contact us - <strong class="text-blue-600">HOTLINE - 0377892859</strong></p>
+            <p class="text-sm text-gray-600 text-center mt-4">For any inquiries, please contact us - <strong class="text-blue-600">HOTLINE - 0666688889</strong></p>
         </form>
     </div>
     

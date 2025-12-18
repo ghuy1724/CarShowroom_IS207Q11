@@ -31,7 +31,7 @@
                     </div>
                     <div>
                         <img src="/assets/svg/speed-one-svgrepo-com.svg" alt="" class="h-10 w-10 mx-auto">
-                        <p class="text-sm text-gray-600 mt-2">Tốc độ</p>
+                        <p class="text-sm text-gray-600 mt-2">Tốc độ tối đa</p>
                         <p class="text-lg font-bold text-gray-900">{{ $car->max_speed }} km/h</p>
                     </div>
                 </div>
