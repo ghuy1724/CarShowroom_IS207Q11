@@ -133,11 +133,12 @@ class RentalRenewalController extends Controller
             return redirect()->back()->withErrors(['error' => 'Không tìm thấy khách hàng với số điện thoại này.']);
         }
 
-        // Lấy hóa đơn gần nhất của từng xe mà khách hàng đã thuê
+        // Lấy hóa đơn gần nhất của từng xe mà khách hàng đã thuê (loại trừ xe đã trả)
         $latestReceipts = RentalReceipt::with('rentalCar.carDetails')
             ->whereHas('rentalOrder', function ($query) use ($customer) {
                 $query->where('user_id', $customer->id);
             })
+            ->whereNotIn('status', ['Completed', 'Canceled']) // Loại trừ xe đã trả và đã hủy
             ->orderBy('rental_end_date', 'desc') // Sắp xếp theo ngày kết thúc giảm dần
             ->get()
             ->groupBy('rental_id') // Nhóm theo từng xe

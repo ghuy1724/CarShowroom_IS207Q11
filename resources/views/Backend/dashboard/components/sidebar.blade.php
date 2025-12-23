@@ -148,6 +148,14 @@
                                         <span class="menu-title">Yêu cầu gia hạn</span>
                                     </a>
                                 </div>
+                                <div class="menu-item">
+                                    <a class="menu-link" href="{{route('carReturn')}}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Quản lí trả xe</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
