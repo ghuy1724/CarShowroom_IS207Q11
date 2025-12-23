@@ -48,52 +48,52 @@ class CarExport implements WithHeadings, WithStyles, WithColumnWidths, FromArray
     {
         return [
             [
-                'Porsche',
-                'Taycan',
-                'J1',
+                'Lamborghini',
+                'Aventador S',
+                'Coupe',
                 '2021',
-                'Electric',
-                '5',
-                '616 HP',
-                '260 km/h',
-                '12 cubic feet',
-                '4963',
-                '1966',
-                '1378',
+                'Gasoline',
+                '2',
+                '740 HP',
+                '350 km/h',
+                '19 cubic feet',
+                '4797',
+                '2265',
+                '1136',
                 'Mô tả chi tiết',
-                '150000',
+                '190000',
                 'Available',
                 '24',
                 'Brand new, full warranty',
-                'https://hyundaingocphat.com.vn/wp-content/uploads/2023/09/hyundai-custin-c-230915.jpg',
-                '2',
-                3.5, // acceleration_time
-                15.8, // fuel_efficiency
-                850, // torque
+                'https://png.pngtree.com/png-clipart/20240810/original/pngtree-lamborghini-log-png-image_15743898.png',
+                '3',
+                2.5, // acceleration_time
+                16.9, // fuel_efficiency
+                720, // torque
             ],
             [
-                'Hyundai',
-                'Custin',
-                'MPV',
+                'Porsche',
+                '911 Carrera S',
+                'Coupe',
                 '2023',
                 'Gasoline',
-                '7',
-                '170 HP',
-                '190 km/h',
+                '4',
+                '443 HP',
+                '308 km/h',
                 '20 cubic feet',
-                '4965',
+                '4519',
                 '1850',
-                '1720',
+                '1300',
                 'Mô tả chi tiết',
-                '40000',
+                '2000000',
                 'Available',
-                '18',
+                '16',
                 'Certified pre-owned',
-                'https://porsche-vietnam.vn/wp-content/uploads/2021/01/j1-taycan-modelimage-sideshot.png',
-                '3',
-                8.5, // acceleration_time
-                12.3, // fuel_efficiency
-                320, // torque
+                'https://porsche-vietnam.vn/wp-content/uploads/2025/02/992-2nd-c2-gts-modelimage-sideshot-840x473.png',
+                '2',
+                3.3,  // acceleration_time
+                10.2, // fuel_efficiency
+                530,   // torque
             ],
             [
                 'Toyota',
