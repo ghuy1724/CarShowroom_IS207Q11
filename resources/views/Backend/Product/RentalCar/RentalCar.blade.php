@@ -42,7 +42,7 @@
                 <!-- Bộ lọc tình trạng -->
                 <select id="statusFilter" class="rounded-lg border border-gray-300 px-4 py-2">
                     <option value="">Tất cả tình trạng</option>
-                    <option value="Available">Sẵn sàng</option>
+                    <option value="Available">Khả dụng</option>
                     <option value="Rented">Đang thuê</option>
                 </select>
 
@@ -98,7 +98,7 @@
                                 <!-- Badge tình trạng xe -->
                                 <span class="badge 
                                     {{ $car->availability_status == 'Available' ? 'bg-success' : 'bg-danger' }}">
-                                    {{ $car->availability_status }}
+                                    {{ $car->availability_status == 'Available' ? 'Khả dụng' : 'Đã được thuê' }}
                                 </span>
                             </div>
                         </div>

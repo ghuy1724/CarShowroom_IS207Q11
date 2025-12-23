@@ -34,8 +34,8 @@ class AccessoriesExport implements WithHeadings, WithStyles, WithColumnWidths, F
     public function array(): array
     {
         return [
-            ['HUD Display Vietmap H2AS', 'Interior', '1500000', '10', 'HUD kính lái cao cấp.', 'https://example.com/image/hud-vietmap.jpg'],
-            ['Car Cover Waterproof', 'Exterior', '500000', '25', 'Bạt phủ ô tô chống nước.', 'https://example.com/image/car-cover.jpg'],
+            ['Máy Hút Bụi Cầm Tay Không Dây Baseus A7 Cordless Car Vacuum Cleaner 6000Pa (78W - 2000 mAh)', 'Car Care', '1500000', '10', 'Giới Thiệu Máy Hút Bụi Cầm Tay Không Dây Baseus A7 Cordless Car Vacuum Cleaner 6000Pa (78W - 2000 mAh) - Máy hút bụi cầm tay cao cấp Baseus A7 Cordless sở hữu thiết kế nhỏ gọn, tinh tế, dễ dàng thao tác ngay cả trong những không gian hẹp. Sản phẩm không chỉ tiện lợi cho việc dọn dẹp nội thất xe hơi mà còn phù hợp với nhiều môi trường khác nhau.', 'https://product.hstatic.net/1000152881/product/baseus_a7_cordless_car_vacuum_cleaner_006_2636d4eb46ed4878aa7361fe5b94718b_1024x1024.jpg'],
+            ['Cam Hành Trình Cho Ô Tô Baseus PrimeTrip VD1 Pro 4K', 'Exterior', '2800000', '5', 'Cam Hành Trình Cho Ô Tô', 'https://example.com/image/car-cam.jpg'],
             ['Meguiar Car Wax', 'Car Care', '300000', '50', 'Sáp bóng ô tô Meguiar.', 'https://example.com/image/meguiar-wax.jpg'],
         ];
     }

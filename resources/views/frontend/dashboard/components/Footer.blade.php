@@ -153,6 +153,6 @@
 
 <!--Copyright section-->
 <div class="bg-black/5 p-6 text-center">
-    <span>© 2024 Copyright:</span>
+    <span>© 2025 Copyright:</span>
     <a class="font-semibold" href="https://tw-elements.com/">SUPERWEB</a>
 </div>

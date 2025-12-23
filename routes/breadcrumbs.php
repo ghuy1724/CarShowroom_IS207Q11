@@ -38,8 +38,8 @@ Breadcrumbs::for('user.record.create', function (BreadcrumbTrail $trail) {
 
 //Carsales
 Breadcrumbs::for('carsales', function (BreadcrumbTrail $trail) {
-    $trail->push('Quản lí sản phẩm', route('Carsales'));
-    $trail->push('Quản lý xe bán', route('Carsales'));
+    $trail->push('Quản lí dịch vụ', route('Carsales'));
+    $trail->push('Tồn kho xe', route('Carsales'));
 });
 Breadcrumbs::for('carsales.details', function (BreadcrumbTrail $trail) {
     $trail->parent('carsales'); // Parent breadcrumb
@@ -58,7 +58,7 @@ Breadcrumbs::for('carsales.create', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('customer', function (BreadcrumbTrail $trail) {
     $trail->push('Quản lí khách hàng', route('customer'));
     $trail->push('Home', route('dashboard'));
-    $trail->push('Quản lý tài khoản', route('customer'));
+    $trail->push('Tài khoản khách hàng', route('customer'));
 });
 
 Breadcrumbs::for('customer.create', function (BreadcrumbTrail $trail) {
@@ -73,8 +73,8 @@ Breadcrumbs::for('customer.edit', function (BreadcrumbTrail $trail) {
 
 //Accessories
 Breadcrumbs::for('Accessories', function (BreadcrumbTrail $trail) {
-    $trail->push('Quản lí sản phẩm', route('accessories.index'));
-    $trail->push('Quản lý phụ kiện', route('accessories.index'));
+    $trail->push('Quản lí dịch vụ', route('accessories.index'));
+    $trail->push('Phụ kiện tồn kho', route('accessories.index'));
 });
 
 Breadcrumbs::for('accessories.details', function (BreadcrumbTrail $trail) {
@@ -94,8 +94,8 @@ Breadcrumbs::for('accessories.create', function (BreadcrumbTrail $trail) {
 
 //Rental Car
 Breadcrumbs::for('rentalCar', function (BreadcrumbTrail $trail) {
-    $trail->push('Quản lí sản phẩm');
-    $trail->push('Quản lý xe thuê', route('rentalCar'));
+    $trail->push('Quản lí dịch vụ');
+    $trail->push('Quản lý xe cho thuê', route('rentalCar'));
 });
 
 Breadcrumbs::for('rentalCar.details', function (BreadcrumbTrail $trail) {
@@ -128,7 +128,7 @@ Breadcrumbs::for('order.details', function (BreadcrumbTrail $trail) {
     $trail->push('Chi tiết Order');
 });
 Breadcrumbs::for('TestDrive', function (BreadcrumbTrail $trail) {
-    $trail->push('Quản lý xe lái thử', route('test_drive.index'));
+    $trail->push('Danh sách đăng kí lái thử', route('test_drive.index'));
 });
 Breadcrumbs::for('TestDriveCreate', function (BreadcrumbTrail $trail) {
     $trail->parent('TestDrive');

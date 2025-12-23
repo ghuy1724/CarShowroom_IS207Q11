@@ -19,7 +19,7 @@
         <!-- Main Content Section -->
         <div class="text-center">
             <h1 class="mt-[-15vh] text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl">
-                Discover Our Cars
+                Explore New World
             </h1>
             <div class="flex flex-col items-center justify-center mt-8 w-full">
                 <!-- Slider container -->

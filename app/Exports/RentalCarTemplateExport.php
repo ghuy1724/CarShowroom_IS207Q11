@@ -18,9 +18,9 @@ class RentalCarTemplateExport implements FromCollection, WithHeadings, WithStyle
     {
         // Dữ liệu mẫu cố định cho file Excel
         return collect([
-            ['1', '51H-12345', '1000000', 'Không hút thuốc trong xe'],
-            ['2', '30A-98765', '1500000', 'Chỉ sử dụng trong khu vực TP.HCM'],
-            ['3', '29A-45678', '1200000', 'Yêu cầu đặt trước 3 ngày'],
+            ['1', '51H-99999', '1000000', 'Chỉ sử dụng trong khu vực TP.HCM'],
+            ['2', '72K-86868', '1500000', 'Giữ vệ sinh xe sạch sẽ'],
+            ['3', '29A-88888', '1200000', 'Yêu cầu đặt trước 3 ngày'],
         ]);
     }
 
