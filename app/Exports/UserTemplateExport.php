@@ -24,8 +24,8 @@ class UserTemplateExport implements WithHeadings, WithStyles, WithColumnWidths, 
     public function array(): array
     {
         return [
-            ['Nguyễn Văn A', 'example1@gmail.com', '0123456789', '123 Đường ABC', '1990-01-01', 'avatar1.jpg', 'Nhân viên IT', 'Admin'],
-            ['Trần Thị B', 'example2@gmail.com', '0987654321', '456 Đường XYZ', '1995-05-20', 'avatar2.jpg', 'Nhân viên Marketing', 'User'],
+            ['Phạm Văn A', 'example1@gmail.com', '0898989889', '123 Đường ABC', '1999-01-01', 'avatar1.jpg', 'Nhân viên IT', 'Admin'],
+            ['Nguyễn Thị B', 'example2@gmail.com', '0123456789', '456 Đường XYZ', '2004-02-20', 'avatar2.jpg', 'Nhân viên BA', 'User'],
         ];
     }
 

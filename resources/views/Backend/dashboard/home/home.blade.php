@@ -48,7 +48,7 @@
                 </div>
                 <div
                     class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
-                    12%
+                    36%
                     <svg class="w-3 h-3 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 10 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -260,8 +260,8 @@
             gradient: {
                 opacityFrom: 0.55,
                 opacityTo: 0,
-                shade: "#1C64F2",
-                gradientToColors: ["#1C64F2"],
+                shade: "#f16cebff",
+                gradientToColors: ["#eb87e6ff"],
             },
         },
         dataLabels: {
@@ -283,7 +283,7 @@
             {
                 name: "Doanh thu",
                 data: monthlyRevenues,
-                color: "#1A56DB",
+                color: "#f7a3f1ff",
             },
         ],
         xaxis: {
@@ -334,7 +334,7 @@ const series = [
 ];
         return {
             series: [totalRentalRevenues, totalPaymentRevenues],
-            colors: ["#1C64F2", "#16BDCA"],
+            colors: ["#16BDCA", "#e481cbff"],
             chart: {
                 height: 420,
                 width: "100%",
@@ -380,11 +380,11 @@ const series = [
 
 
     const options2 = {
-        colors: ["#1A56DB", "#FDBA8C"],
+        colors: ["#16BDCA", "#e481cbff"],
         series: [
             {
                 name: "Payment Revenues",
-                color: "#1A56DB",
+                color: "#16BDCA",
                 data: finalPaymentRevenues.map((value, index) => ({
                     x: `Month ${index + 1}`,
                     y: value,
@@ -392,7 +392,7 @@ const series = [
             },
             {
                 name: "Rental Revenues",
-                color: "#FDBA8C",
+                color: "#e481cbff",
                 data: finalRentalRevenues.map((value, index) => ({
                     x: `Month ${index + 1}`,
                     y: value,

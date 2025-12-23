@@ -107,7 +107,7 @@
 
     <div class="text-center">
         <h1 class="text-3xl font-bold flex items-center ml-10">
-            <i class="fa-solid fa-wrench text-blue-900 border-b-2 border-green-400 w-10 "></i> Design
+            <i class="fa-solid fa-wrench text-blue-900 border-b-2 border-green-400 w-10 "></i> Technical Specifications
         </h1>
 
     </div>
@@ -120,11 +120,11 @@
             <div class="mb-2">
                 <p id="car1-length-value" class="text-sm font-bold text-blue-600"></p>
                 <div class="w-full h-2 bg-gray-300 rounded-full mb-2">
-                    <div id="car1-length-bar" class="h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full" style="width: 0%"></div>
+                    <div id="car1-length-bar" class="h-2 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full" style="width: 0%"></div>
                 </div>
                 <p id="car2-length-value" class="text-sm font-bold text-red-600"></p>
                 <div class="w-full h-2 bg-gray-300 rounded-full">
-                    <div id="car2-length-bar" class="h-2 bg-gradient-to-r from-green-400 to-green-600 rounded-full" style="width: 0%"></div>
+                    <div id="car2-length-bar" class="h-2 bg-gradient-to-r from-pink-400 to-rose-500 rounded-full" style="width: 0%"></div>
                 </div>
             </div>
             <p class="text-gray-500 text-sm">We consider a longer length better because longer cars often offer more interior space and improved stability.</p>
@@ -137,11 +137,11 @@
             <div class="mb-2">
                 <p id="car1-width-value" class="text-sm font-bold text-blue-600"></p>
                 <div class="w-full h-2 bg-gray-300 rounded-full mb-2">
-                    <div id="car1-width-bar" class="h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full" style="width: 0%"></div>
+                    <div id="car1-width-bar" class="h-2 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full" style="width: 0%"></div>
                 </div>
                 <p id="car2-width-value" class="text-sm font-bold text-red-600"></p>
                 <div class="w-full h-2 bg-gray-300 rounded-full">
-                    <div id="car2-width-bar" class="h-2 bg-gradient-to-r from-green-400 to-green-600 rounded-full" style="width: 0%"></div>
+                    <div id="car2-width-bar" class="h-2 bg-gradient-to-r from-pink-400 to-rose-500 rounded-full" style="width: 0%"></div>
                 </div>
             </div>
             <p class="text-gray-500 text-sm">We consider a longer length better because longer cars often offer more interior space and improved stability.</p>
@@ -154,11 +154,11 @@
             <div class="mb-2">
                 <p id="car1-height-value" class="text-sm font-bold text-blue-600"></p>
                 <div class="w-full h-2 bg-gray-300 rounded-full mb-2">
-                    <div id="car1-height-bar" class="h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full" style="width: 0%"></div>
+                    <div id="car1-height-bar" class="h-2 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full" style="width: 0%"></div>
                 </div>
                 <p id="car2-height-value" class="text-sm font-bold text-red-600"></p>
                 <div class="w-full h-2 bg-gray-300 rounded-full">
-                    <div id="car2-height-bar" class="h-2 bg-gradient-to-r from-green-400 to-green-600 rounded-full" style="width: 0%"></div>
+                    <div id="car2-height-bar" class="h-2 bg-gradient-to-r from-pink-400 to-rose-500 rounded-full" style="width: 0%"></div>
                 </div>
             </div>
             <p class="text-gray-500 text-sm">We consider a taller height better because taller cars often offer more headroom and an elevated driving position.</p>
@@ -178,34 +178,34 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 ml-10 mr-10 mt-5 p-5">
             <!-- Acceleration Card -->
         <div id="accelerationCard" class="bg-white p-6 rounded-lg shadow-lg border-2 border-gray-200">
-            <h2 class="text-lg font-semibold mb-2 ">ACCELERATION</h2>
+            <h2 class="text-lg font-semibold mb-2 ">ACCELERATION (0–100 km/h)</h2>
             <div class="mb-2">
                 <p id="car1-acceleration-value" class="text-sm font-bold text-blue-600"></p>
                 <div class="w-full h-2 bg-gray-300 rounded-full mb-2">
-                    <div id="car1-acceleration-bar" class="h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full" style="width: 0%"></div>
+                    <div id="car1-acceleration-bar" class="h-2 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full" style="width: 0%"></div>
                 </div>
                 <p id="car2-acceleration-value" class="text-sm font-bold text-red-600"></p>
                 <div class="w-full h-2 bg-gray-300 rounded-full">
-                    <div id="car2-acceleration-bar" class="h-2 bg-gradient-to-r from-green-400 to-green-600 rounded-full" style="width: 0%"></div>
+                    <div id="car2-acceleration-bar" class="h-2 bg-gradient-to-r from-pink-400 to-rose-500 rounded-full" style="width: 0%"></div>
                 </div>
             </div>
-            <p class="text-gray-500 text-sm">We consider faster acceleration better because it improves performance and driving dynamics.</p>
+            <p class="text-gray-500 text-sm">A lower 0–100 km/h time reflects stronger acceleration capability and enhanced driving performance.</p>
         </div>
 
                 <!-- Efficiency Card -->
         <div id="efficiencyCard" class="bg-white p-6 rounded-lg shadow-lg border-2 border-gray-200">
-            <h2 class="text-lg font-semibold mb-2">EFFICIENCY</h2>
+            <h2 class="text-lg font-semibold mb-2">EFFICIENCY (km/L)</h2>
             <div class="mb-2">
                 <p id="car1-efficiency-value" class="text-sm font-bold text-blue-600"></p>
                 <div class="w-full h-2 bg-gray-300 rounded-full mb-2">
-                    <div id="car1-efficiency-bar" class="h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full" style="width: 0%"></div>
+                    <div id="car1-efficiency-bar" class="h-2 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full" style="width: 0%"></div>
                 </div>
                 <p id="car2-efficiency-value" class="text-sm font-bold text-red-600"></p>
                 <div class="w-full h-2 bg-gray-300 rounded-full">
-                    <div id="car2-efficiency-bar" class="h-2 bg-gradient-to-r from-green-400 to-green-600 rounded-full" style="width: 0%"></div>
+                    <div id="car2-efficiency-bar" class="h-2 bg-gradient-to-r from-pink-400 to-rose-500 rounded-full" style="width: 0%"></div>
                 </div>
             </div>
-            <p class="text-gray-500 text-sm">We consider better fuel efficiency to be more economical and environmentally friendly.</p>
+            <p class="text-gray-500 text-sm">Vehicles with higher fuel efficiency consume less fuel per distance traveled, making them more economical to operate.</p>
         </div>
 
         <!-- Torque Card -->
@@ -214,11 +214,11 @@
             <div class="mb-2">
                 <p id="car1-torque-value" class="text-sm font-bold text-blue-600"></p>
                 <div class="w-full h-2 bg-gray-300 rounded-full mb-2">
-                    <div id="car1-torque-bar" class="h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full" style="width: 0%"></div>
+                    <div id="car1-torque-bar" class="h-2 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full" style="width: 0%"></div>
                 </div>
                 <p id="car2-torque-value" class="text-sm font-bold text-red-600"></p>
                 <div class="w-full h-2 bg-gray-300 rounded-full">
-                    <div id="car2-torque-bar" class="h-2 bg-gradient-to-r from-green-400 to-green-600 rounded-full" style="width: 0%"></div>
+                    <div id="car2-torque-bar" class="h-2 bg-gradient-to-r from-pink-400 to-rose-500 rounded-full" style="width: 0%"></div>
                 </div>
             </div>
             <p class="text-gray-500 text-sm">Higher torque is better for towing and overall performance in low-speed acceleration.</p>
