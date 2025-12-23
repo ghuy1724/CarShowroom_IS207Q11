@@ -18,6 +18,11 @@ class Kernel extends ConsoleKernel
         $schedule->command('payment:check-status')
         ->daily() // Chạy mỗi ngày vào nửa đêm
         ->appendOutputTo(storage_path('logs/payment_check_status.log')); // Ghi nhật ký
+        
+        // Check overdue rentals and send notifications daily at 9:00 AM
+        $schedule->command('check:overdue-rentals')
+            ->dailyAt('09:00')
+            ->appendOutputTo(storage_path('logs/overdue_rentals.log'));
     }
     
 

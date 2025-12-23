@@ -43,6 +43,8 @@
         <div class="w-full h-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6" style="height: 750px; pointer-events: auto;">
             <div class="flex justify-between">
                 <div>
+                    <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2" id="total-revenue">0 VNĐ</h5>
+                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">Tổng doanh thu năm 2025</p>
                     <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">8.8M</h5>
                     <p class="text-base font-normal text-gray-500 dark:text-gray-400">Sales</p>
                 </div>
@@ -169,12 +171,13 @@
                         </div>
                         <div class="grid grid-cols-2">
                             <dl class="flex items-center">
-                                <dt class="text-gray-500 dark:text-gray-400 text-sm font-normal me-1">Money spent:</dt>
-                                <dd class="text-gray-900 text-sm dark:text-white font-semibold">3,232,120 VND</dd>
+                                <dt class="text-gray-500 dark:text-gray-400 text-sm font-normal me-1">Doanh thu bán xe:</dt>
+                                <dd class="text-gray-900 text-sm dark:text-white font-semibold" id="payment-total">0 VNĐ</dd>
                             </dl>
                             <dl class="flex items-center justify-end">
-                                <dt class="text-gray-500 dark:text-gray-400 text-sm font-normal me-1">Conversion rate:
+                                <dt class="text-gray-500 dark:text-gray-400 text-sm font-normal me-1">Doanh thu thuê xe:
                                 </dt>
+                                <dd class="text-gray-900 text-sm dark:text-white font-semibold" id="rental-total">0 VNĐ</dd>
                                 <dd class="text-gray-900 text-sm dark:text-white font-semibold">2.6%</dd>
                             </dl>
                         </div>
@@ -231,8 +234,8 @@
     const monthlyRevenues = @json($monthlyRevenues ?? []);
     const finalPaymentRevenues = @json($finalPaymentRevenues ?? []);
     const finalRentalRevenues = @json($finalRentalRevenues ?? []);
-    const totalRentalRevenues = @json($totalPaymentRevenues);
-    const totalPaymentRevenues = @json($totalRentalRevenues);
+    const totalPaymentRevenues = @json($totalPaymentRevenues); // Sửa: đã đảo ngược
+    const totalRentalRevenues = @json($totalRentalRevenues);   // Sửa: đã đảo ngược
 
 
 
@@ -315,6 +318,12 @@
         window.areaChart.render();
     }
 
+    // Update total revenue display
+    const totalRevenue = monthlyRevenues.reduce((a, b) => a + b, 0);
+    document.getElementById('total-revenue').textContent = new Intl.NumberFormat('vi-VN').format(totalRevenue) + ' VNĐ';
+    document.getElementById('payment-total').textContent = new Intl.NumberFormat('vi-VN').format(totalPaymentRevenues) + ' VNĐ';
+    document.getElementById('rental-total').textContent = new Intl.NumberFormat('vi-VN').format(totalRentalRevenues) + ' VNĐ';
+
 
     // Tính tổng từng mảng
 
@@ -349,7 +358,7 @@ const series = [
                     }
                 },
             },
-            labels: ["Rental Revenues", "Payment Revenues"],
+            labels: ["Doanh thu thuê xe", "Doanh thu bán xe"],
             dataLabels: {
                 enabled: true,
                 style: {

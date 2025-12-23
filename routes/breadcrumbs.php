@@ -168,6 +168,11 @@ Breadcrumbs::for('rentalRenewals', function (BreadcrumbTrail $trail) {
     $trail->push('Chi tiết gia hạn');  
 });
 
+Breadcrumbs::for('carReturn', function (BreadcrumbTrail $trail) {
+    $trail->parent('rentalOrders');
+    $trail->push('Quản lí trả xe', route('carReturn'));
+});
+
 Breadcrumbs::for('rental.extend.manual.search', function (BreadcrumbTrail $trail) {
     $trail->parent('rentalReceipt');
     $trail->push('Gia hạn thủ công');  

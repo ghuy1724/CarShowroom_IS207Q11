@@ -21,10 +21,11 @@ class DashboardController extends Controller
 
     public function loadDashboard()
     {
-        // Doanh thu từ Payment
-        $paymentRevenues = Payment::selectRaw('MONTH(COALESCE(full_payment_date, remaining_payment_date, payment_deposit_date)) as month, SUM(total_amount) as total')
-            ->whereRaw('YEAR(COALESCE(full_payment_date, remaining_payment_date, payment_deposit_date)) = ?', [date('Y')])
-            ->groupByRaw('MONTH(COALESCE(full_payment_date, remaining_payment_date, payment_deposit_date))')
+        // Doanh thu từ Payment - sử dụng payment_deposit_date
+        $paymentRevenues = Payment::selectRaw('MONTH(payment_deposit_date) as month, SUM(total_amount) as total')
+            ->whereNotNull('payment_deposit_date')
+            ->whereYear('payment_deposit_date', date('Y'))
+            ->groupByRaw('MONTH(payment_deposit_date)')
             ->pluck('total', 'month')
             ->toArray();
 

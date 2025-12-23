@@ -30,6 +30,7 @@ use App\Http\Controllers\Backend\RentalReceiptController;
 use App\Http\Controllers\Backend\RentalRenewalController;
 use App\Http\Controllers\Backend\RevenueController;
 use App\Http\Controllers\frontend\AccessoryOrderController;
+use App\Http\Controllers\Backend\CarReturnController;
 
 
 use App\Http\Controllers\Backend\TestDriveController;
@@ -102,6 +103,12 @@ Route::prefix('admin')->middleware(AuthenticateMiddleware::class)->group(functio
     Route::post('/rental/extend/manual/search', [RentalRenewalController::class, 'searchReceipts'])->name('rental.extend.manual.search.process');
     // Xử lý gia hạn thủ công
     Route::post('/rental/extend/manual/process', [RentalRenewalController::class, 'processManualExtend'])->name('rental.extend.manual.process');
+
+    /* CAR RETURN MANAGEMENT */
+    Route::get('/car-return', [CarReturnController::class, 'index'])->name('carReturn');
+    Route::post('/car-return/filter', [CarReturnController::class, 'filter'])->name('carReturn.filter');
+    Route::post('/car-return/{receipt_id}', [CarReturnController::class, 'returnCar'])->name('carReturn.process');
+    Route::get('/car-return/manual-payment/{receipt_id}', [CarReturnController::class, 'processManualPayment'])->name('carReturn.manualPayment');
 
     /* RENTAL CAR */
     Route::get('/rental-car', [RentalCarController::class, 'loadRentalCar'])->name('rentalCar');
@@ -205,30 +212,31 @@ Route::prefix('password')->group(function () {
     Route::post('/reset/{token}', [ForgetPasswordManager::class, 'resetPasswordPost'])->name('reset.password.post');
 });
 
-// Route view profile
-Route::get('/view-profile', [ProfileController::class, 'viewprofile'])->name('view.profile');
-Route::get('/view-profile/invoice-info', [ProfileController::class, 'invoiceInfo'])->name('profile.invoice_info');
-Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-
-// Rout view reset password
-Route::get('/view-profile/resetpass', [ProfileController::class, 'showResetPass'])->name('view.resetpass');
-// Xử lý yêu cầu đổi mật khẩu
-Route::post('/view-profile/resetpass', [CustomerAuthController::class, 'resetPassword'])->name('reset.password.submit');
-Route::get('/customer-car', [ProfileController::class, 'customer_car'])->name('customer.car');
-Route::get('/customer-car/detail/{id}', [ProfileController::class, 'customer_car_detail'])->name('customer.car.detail');
-Route::get('/customer-accessories', [ProfileController::class, 'customer_accessories'])->name('customer.accessories');
-
-
-//transactionHistory
-Route::get('/saleCar-history', [TransactionController::class, 'index'])->name('transaction.history');
-Route::get('/saleCar/{orderId}', [TransactionController::class, 'orderDetails'])->name('transactionHistory.details');
-Route::get('/rental-history', [TransactionController::class, 'indexRental'])->name('rentalHistory.index');
-Route::get('/rental-history/{orderId}', [TransactionController::class, 'rentalOrderDetails'])->name('rentalHistory.details');
-Route::get('/rental-order-status/{orderId}', [TransactionController::class, 'getStatus'])->name('order.status');
-
-// Rental History
-Route::get('/rentalCar-history', [RentalHistoryController::class, 'index'])->name('rentalHistory');
-Route::get('/rentalCar-history/{receiptId}', [RentalHistoryController::class, 'showReceipt'])->name('rentalHistory.showReceipt');
+// Route view profile - Require authentication
+Route::middleware('auth:account')->group(function () {
+    Route::get('/view-profile', [ProfileController::class, 'viewprofile'])->name('view.profile');
+    Route::get('/view-profile/invoice-info', [ProfileController::class, 'invoiceInfo'])->name('profile.invoice_info');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    
+    // Rout view reset password
+    Route::get('/view-profile/resetpass', [ProfileController::class, 'showResetPass'])->name('view.resetpass');
+    // Xử lý yêu cầu đổi mật khẩu
+    Route::post('/view-profile/resetpass', [CustomerAuthController::class, 'resetPassword'])->name('reset.password.submit');
+    Route::get('/customer-car', [ProfileController::class, 'customer_car'])->name('customer.car');
+    Route::get('/customer-car/detail/{id}', [ProfileController::class, 'customer_car_detail'])->name('customer.car.detail');
+    Route::get('/customer-accessories', [ProfileController::class, 'customer_accessories'])->name('customer.accessories');
+    
+    //transactionHistory
+    Route::get('/saleCar-history', [TransactionController::class, 'index'])->name('transaction.history');
+    Route::get('/saleCar/{orderId}', [TransactionController::class, 'orderDetails'])->name('transactionHistory.details');
+    Route::get('/rental-history', [TransactionController::class, 'indexRental'])->name('rentalHistory.index');
+    Route::get('/rental-history/{orderId}', [TransactionController::class, 'rentalOrderDetails'])->name('rentalHistory.details');
+    Route::get('/rental-order-status/{orderId}', [TransactionController::class, 'getStatus'])->name('order.status');
+    
+    // Rental History
+    Route::get('/rentalCar-history', [RentalHistoryController::class, 'index'])->name('rentalHistory');
+    Route::get('/rentalCar-history/{receiptId}', [RentalHistoryController::class, 'showReceipt'])->name('rentalHistory.showReceipt');
+});
 
 //
 
@@ -299,6 +307,8 @@ Route::get('/rental/payment/vnpay-return', [RentalPaymentController::class, 'vnp
 Route::post('/rental/extend/{receipt_id}', [RentCarController::class, 'handleExtend'])->name('rental.extend');
 Route::get('/rental/payment/renewal', [RentalPaymentController::class, 'vnpay_payment_renewal'])->name('rental.payment.vnpay_renewal');
 Route::get('/rental/payment/renewal-return', [RentalPaymentController::class, 'vnpay_return_renewal'])->name('rental.payment.vnpay_return_renewal');
+Route::get('/rental/payment/overdue', [RentalPaymentController::class, 'vnpay_payment_overdue'])->name('rental.payment.vnpay_overdue');
+Route::get('/rental/payment/overdue-return', [RentalPaymentController::class, 'vnpay_return_overdue'])->name('rental.payment.vnpay_return_overdue');
 
 //Car buy
 Route::get('/car/{id}/buy', [BuyCarController::class, 'showBuyForm'])->name('car.buy');

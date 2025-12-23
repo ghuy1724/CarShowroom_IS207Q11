@@ -263,4 +263,161 @@ class RentalPaymentController extends Controller
         return redirect()->away($vnp_Url);
     }
 
+    /**
+     * Initiate VNPay payment for overdue fees
+     */
+    public function vnpay_payment_overdue(Request $request) {
+        $receiptId = $request->receipt_id;
+        $receipt = RentalReceipt::with(['rentalCar.carDetails', 'rentalOrder.user'])->findOrFail($receiptId);
+        
+        // Calculate overdue fee
+        $endDate = \Carbon\Carbon::parse($receipt->rental_end_date);
+        $today = \Carbon\Carbon::today();
+        $overdueDays = $endDate->diffInDays($today) + 1;
+        $overdueFee = $receipt->rental_price_per_day * $overdueDays;
+        
+        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+        $vnp_Returnurl = route('rental.payment.vnpay_return_overdue');
+        $vnp_TmnCode = env('VNPAY_TMN_CODE');
+        $vnp_HashSecret = env('VNPAY_HASH_SECRET');
+
+        $vnp_TxnRef = 'OVERDUE_' . $receiptId . '_' . time();
+        $vnp_OrderInfo = "Thanh toan phi qua han hop dong #" . $receiptId;
+        $vnp_OrderType = "billpayment";
+        $vnp_Amount = $overdueFee * 100;
+        $vnp_Locale = "vn";
+        $vnp_IpAddr = $request->ip();
+
+        $inputData = array(
+            "vnp_Version" => "2.1.0",
+            "vnp_TmnCode" => $vnp_TmnCode,
+            "vnp_Amount" => $vnp_Amount,
+            "vnp_Command" => "pay",
+            "vnp_CreateDate" => date('YmdHis'),
+            "vnp_CurrCode" => "VND",
+            "vnp_IpAddr" => $vnp_IpAddr,
+            "vnp_Locale" => $vnp_Locale,
+            "vnp_OrderInfo" => $vnp_OrderInfo,
+            "vnp_OrderType" => $vnp_OrderType,
+            "vnp_ReturnUrl" => $vnp_Returnurl,
+            "vnp_TxnRef" => $vnp_TxnRef,
+        );
+
+        ksort($inputData);
+        $query = "";
+        $i = 0;
+        $hashdata = "";
+        foreach ($inputData as $key => $value) {
+            if ($i == 1) {
+                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashdata .= urlencode($key) . "=" . urlencode($value);
+                $i = 1;
+            }
+            $query .= urlencode($key) . "=" . urlencode($value) . '&';
+        }
+
+        $vnp_Url = $vnp_Url . "?" . $query;
+        if (isset($vnp_HashSecret)) {
+            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
+            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+        }
+
+        return redirect()->away($vnp_Url);
+    }
+
+    /**
+     * Handle VNPay return for overdue fee payment
+     */
+    public function vnpay_return_overdue(Request $request)
+    {
+        $vnp_HashSecret = env('VNPAY_HASH_SECRET'); 
+        $inputData = $request->all();
+
+        $vnp_SecureHash = $inputData['vnp_SecureHash'] ?? '';
+        unset($inputData['vnp_SecureHash']);
+        unset($inputData['vnp_SecureHashType']);
+
+        ksort($inputData);
+        $hashData = "";
+        foreach ($inputData as $key => $value) {
+            $hashData .= '&' . urlencode($key) . "=" . urlencode($value);
+        }
+        $hashData = trim($hashData, '&');
+        $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
+
+        if ($secureHash === $vnp_SecureHash) {
+            $transactionCode = $inputData['vnp_TxnRef'] ?? null;
+            
+            // Extract receipt_id from transaction code (format: OVERDUE_{receipt_id}_{timestamp})
+            $parts = explode('_', $transactionCode);
+            $receiptId = $parts[1] ?? null;
+            
+            if (!$receiptId) {
+                toastr()->error("Không tìm thấy thông tin hóa đơn!");
+                return redirect()->route('rentalHistory');
+            }
+
+            $receipt = RentalReceipt::with(['rentalCar', 'rentalOrder'])->find($receiptId);
+
+            if (!$receipt) {
+                toastr()->error("Không tìm thấy hóa đơn!");
+                return redirect()->route('rentalHistory');
+            }
+
+            if ($inputData['vnp_ResponseCode'] == '00') {
+                // SUCCESS - Payment completed
+                DB::beginTransaction();
+                try {
+                    // Update receipt status to Completed (car returned after payment)
+                    $receipt->update(['status' => 'Completed']);
+                    
+                    // Update car availability
+                    if ($receipt->rentalCar) {
+                        $receipt->rentalCar->update(['availability_status' => 'Available']);
+                    }
+                    
+                    // Cancel any pending renewals
+                    RentalRenewal::where('receipt_id', $receiptId)
+                        ->whereIn('status', ['Pending', 'Approved'])
+                        ->update(['status' => 'Canceled']);
+                    
+                    // Create payment record for overdue fee
+                    $endDate = \Carbon\Carbon::parse($receipt->rental_end_date);
+                    $today = \Carbon\Carbon::today();
+                    $overdueDays = $endDate->diffInDays($today) + 1;
+                    $overdueFee = $receipt->rental_price_per_day * $overdueDays;
+                    
+                    RentalPayment::create([
+                        'order_id' => $receipt->order_id,
+                        'status_deposit' => 'Successful',
+                        'full_payment_status' => 'Successful',
+                        'deposit_amount' => 0,
+                        'total_amount' => $overdueFee,
+                        'remaining_amount' => 0,
+                        'due_date' => now(),
+                        'payment_date' => now(),
+                        'transaction_code' => $transactionCode,
+                    ]);
+
+                    DB::commit();
+                    toastr()->success("Thanh toán phí quá hạn thành công! Xe đã được trả.");
+                    return redirect()->route('rentalHistory');
+                } catch (\Exception $e) {
+                    DB::rollBack();
+                    Log::error("Overdue Payment Update Failed: " . $e->getMessage());
+                    toastr()->error("Lỗi cập nhật thanh toán.");
+                    return redirect()->route('rentalHistory');
+                }
+            } else {
+                // FAILED
+                toastr()->error("Thanh toán phí quá hạn thất bại.");
+                return redirect()->route('rentalHistory');
+            }
+        } else {
+            toastr()->error("Chữ ký không hợp lệ!");
+            return redirect()->route('rentalHistory');
+        }
+    }
+
 }
