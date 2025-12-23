@@ -95,7 +95,7 @@
     <div class="relative container mx-auto flex flex-col lg:flex-row items-stretch pt-96 text-white h-full px-6 lg:px-12 gap-y-8 lg:gap-x-16 ">
         <!-- Vision -->
         <div class="text-center lg:text-left max-w-sm">
-            <h3 class="text-2xl font-bold mb-4" style="color: #90CAF9">Vision</h3>
+            <h3 class="text-2xl font-bold mb-4" style="color: #6fc7ddff">Vision</h3>
             <p class="text-sm lg:text-base">
                 To become the leading luxury sports car brand, delivering top-tier driving experiences and unparalleled inspiration.
             </p>
@@ -106,7 +106,7 @@
 
         <!-- Mission -->
         <div class="text-center lg:text-left max-w-sm">
-            <h3 class="text-2xl font-bold mb-4" style="color: #90CAF9">Mission</h3>
+            <h3 class="text-2xl font-bold mb-4" style="color: #6fc7ddff">Mission</h3>
             <p class="text-sm lg:text-base">
                 To create vehicles that are not only powerful but also sustainable, for a greener future.
             </p>
@@ -117,7 +117,7 @@
 
         <!-- Brand Philosophy -->
         <div class="text-center lg:text-left max-w-sm">
-            <h3 class="text-2xl font-bold mb-4" style="color: #90CAF9">Brand Philosophy</h3>
+            <h3 class="text-2xl font-bold mb-4" style="color: #6fc7ddff">Brand Philosophy</h3>
             <p class="text-sm lg:text-base">
                 Placing customers at the center, Porsche continually innovates to deliver perfection in every product.
             </p>
@@ -128,7 +128,7 @@
 
         <!-- Core Values -->
         <div class="text-center lg:text-left max-w-sm">
-            <h3 class="text-2xl font-bold mb-4" style="color: #90CAF9">Core Values</h3>
+            <h3 class="text-2xl font-bold mb-4" style="color: #6fc7ddff">Core Values</h3>
             <p class="text-sm lg:text-base">
                 Excellence, exceptional performance, and world-class customer service.
             </p>

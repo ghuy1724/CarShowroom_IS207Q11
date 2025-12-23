@@ -109,7 +109,7 @@
                             </span>
                             <!--end::Svg Icon-->
                         </span>
-                        <span class="menu-title">Quản lý đơn hàng</span>
+                        <span class="menu-title">Quản lý giao dịch</span>
                         <span class="menu-arrow"></span>
                     </span>
                     <div class="menu-sub menu-sub-accordion menu-active-bg">
@@ -118,7 +118,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Quản lý Đơn hàng sản phẩm</span>
+                                <span class="menu-title">Giao dịch cọc xe</span>
                             </a>
                         </div>
 
@@ -127,7 +127,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Quản lí thuê xe</span>
+                                <span class="menu-title">Thuê xe, gia hạn</span>
                                 <span class="menu-arrow"></span>
                             </span>
                             <div class="menu-sub menu-sub-accordion menu-active-bg">
@@ -137,7 +137,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Quản lí Đơn thuê xe</span>
+                                        <span class="menu-title">Giao dịch thuê xe</span>
                                     </a>
                                 </div>
                                 <div class="menu-item">
@@ -218,7 +218,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Quản lý bán xe</span>
+                                <span class="menu-title">Quản lý tồn kho xe bán</span>
                             </a>
                         </div>
                         <div class="menu-item">
@@ -226,7 +226,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Quản lý thuê xe</span>
+                                <span class="menu-title">Quản lý xe cho thuê</span>
                             </a>
                         </div>
                         <div class="menu-item">
@@ -234,7 +234,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Quản lý phụ kiện</span>
+                                <span class="menu-title">Quản lý tồn kho phụ kiện</span>
                             </a>
                         </div>
 
@@ -243,7 +243,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Quản lý lái thử</span>
+                                <span class="menu-title">Danh sách đăng kí lái thử</span>
                             </a>
                         </div>
                     </div>

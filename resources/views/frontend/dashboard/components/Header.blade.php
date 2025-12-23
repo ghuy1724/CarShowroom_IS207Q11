@@ -20,20 +20,20 @@
             </div>
             <div class="hidden lg:flex lg:gap-x-12">
                 <a href="{{ route('CustomerDashBoard.introduce') }}"
-                    class=" md:hover:text-blue-700 font-semibold text-gray-900 hover:underline text">Introduction</a>
+                    class=" hover:text-gray-600 hover:scale-125 transition duration-200 font-semibold text-gray-900 text">Introduction</a>
 
-                <a href="{{ route('CarController.index') }}" class=" md:hover:text-blue-700 font-semibold text-gray-900 hover:underline">Car</a>
+                <a href="{{ route('CarController.index') }}" class=" hover:text-gray-600 hover:scale-125 transition duration-200 font-semibold text-gray-900">Car</a>
        
 
-                <a href="{{ route('CustomerDashBoard.accsessories') }} "class=" md:hover:text-blue-700 font-semibold text-gray-900 hover:underline">Accessories</a>
+                <a href="{{ route('CustomerDashBoard.accsessories') }} "class=" hover:text-gray-600 hover:scale-125 transition duration-200 font-semibold text-gray-900">Accessories</a>
 
                 <a href="{{ route('CustomerDashBoard.compare') }} "
-                    class=" md:hover:text-blue-700 font-semibold text-gray-900 hover:underline">Compare Cars</a>
+                    class=" hover:text-gray-600 hover:scale-110 transition duration-200 font-semibold text-gray-900">Compare Cars</a>
 
                 <!-- Service with Centered Dropdown -->
                 <div class="relative group">
                     <a href="#"
-                        class="inline-flex md:hover:text-blue-700 font-semibold text-gray-900 hover:underline ">
+                        class="inline-flex hover:text-gray-600 hover:scale-110 transition duration-200 font-semibold text-gray-900 ">
                         Service
                         <svg class="w-2.5 ms-2 translate-y-0.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             fill="none" viewBox="0 0 10 6">
